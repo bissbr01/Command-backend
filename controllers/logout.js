@@ -5,7 +5,7 @@ const tokenExtractor = require('../utils/tokenExtractor');
 const { User, Session } = require('../models');
 
 router.delete('/', tokenExtractor, async (req, res) => {
-  const token = req.token;
+  const { token } = req;
   if (!token) throw new Error('Not logged in');
 
   const session = await Session.findOne({ where: { token } });

@@ -6,7 +6,7 @@ const { User, Session } = require('../models');
 const { SECRET } = require('../utils/config');
 
 router.post('/', async (req, res) => {
-  const body = req.body;
+  const { body } = req;
 
   const user = await User.findOne({
     where: {

@@ -1,7 +1,7 @@
+const router = require('express').Router();
 const tokenExtractor = require('../utils/tokenExtractor');
 const { ReadingList } = require('../models');
 const authorizeUser = require('../utils/authorizeUser');
-const router = require('express').Router();
 
 router.post('/', async (req, res) => {
   const readingList = await ReadingList.create(req.body);

@@ -4,6 +4,7 @@ const { connectToDatabase } = require('./utils/db');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const logoutRouter = require('./controllers/logout');
+
 const errorHandler = require('./utils/errorHandler');
 
 const app = express();

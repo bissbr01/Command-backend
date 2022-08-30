@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
-const { Blog, User } = require('../models');
 const router = require('express').Router();
+const { Blog, User } = require('../models');
 
 router.get('/', async (req, res) => {
   // group by author, then aggregate num of blogs for that author

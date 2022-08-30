@@ -1,6 +1,6 @@
-const { User, Blog } = require('../models');
 const bcrypt = require('bcrypt');
 const router = require('express').Router();
+const { User, Blog } = require('../models');
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
   res.json(users);
 });
 
+// eslint-disable-next-line consistent-return
 router.post('/', async (req, res) => {
   try {
     const saltRounds = 8;
@@ -26,7 +27,7 @@ router.post('/', async (req, res) => {
 router.get('/:username', async (req, res) => {
   const where = {};
   if (req.query.read) {
-    where.read = req.query.read === 'true' ? true : false;
+    where.read = req.query.read === 'true';
   }
   const user = await User.findOne({
     where: { username: req.params.username },
