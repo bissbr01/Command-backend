@@ -1,0 +1,36 @@
+@baseUrl=http://localhost:3001/api/users
+@testID=Peter@google.com
+###
+
+GET {{baseUrl}}
+
+###
+
+GET {{baseUrl}}/{{testID}}
+
+###
+
+GET {{baseUrl}}/{{testID}}?read=true
+
+###
+
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "username": "James@google.com",
+  "name": "James M",
+  "password": "secret"
+}
+
+###
+
+PUT {{baseUrl}}/peter@google.com
+Content-Type: application/json
+
+{
+  "username": "newPeter@google.com"
+}
+
+###
+DELETE {{baseUrl}}/{{testID}}
