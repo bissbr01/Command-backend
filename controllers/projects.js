@@ -1,17 +1,11 @@
 const router = require('express').Router();
 
-const { Project, User } = require('../models');
+const { Project } = require('../models');
 
 router.get('/', async (req, res) => {
-  const projects = Project
-    .findAll
-    //   {
-    //   include: {
-    //     model: User,
-    //     as: 'author',
-    //   },
-    // }
-    ();
+  const projects = Project.findAll({
+    // include: 'author',
+  });
   res.json(projects);
 });
 
