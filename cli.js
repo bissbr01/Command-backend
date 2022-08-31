@@ -1,12 +1,12 @@
-const sequelize = require('./utils/db.js');
-const Blog = require('./models/blog.js');
+const sequelize = require('./util/db');
+const Issue = require('./models/issue');
 
 const main = async () => {
   try {
     await sequelize.authenticate();
-    const blogs = await Blog.findAll();
-    blogs.forEach((blog) =>
-      console.log(`${blog.author}: ${blog.title}, ${blog.likes} likes`)
+    const issues = await Issue.findAll();
+    issues.forEach((issue) =>
+      console.log(`${issue.author}: ${issue.title}, ${issue.likes} likes`)
     );
     await sequelize.close();
   } catch (error) {

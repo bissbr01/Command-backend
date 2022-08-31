@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migration:down": "node utils/rollback.js",
+    "migration:down": "node util/rollback.js",
     "lint": "eslint ./**"
   },
   "author": "Brad Bissell",

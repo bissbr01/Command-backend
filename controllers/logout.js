@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const router = require('express').Router();
-const tokenExtractor = require('../utils/tokenExtractor');
+const tokenExtractor = require('../util/tokenExtractor');
 
 const { User, Session } = require('../models');
 

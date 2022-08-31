@@ -1,21 +1,36 @@
-const Blog = require('./blog');
 const User = require('./user');
-const ReadingList = require('./readingList');
-const Session = require('./session');
+const Issue = require('./issue');
+const Comment = require('./comment');
+const Sprint = require('./sprint');
+const Project = require('./project');
 
-User.hasMany(Blog);
-Blog.belongsTo(User);
+Issue.hasMany(Comment);
+Comment.belongsTo(Issue);
 
-User.belongsToMany(Blog, { through: ReadingList, as: 'reading_list' });
-Blog.belongsToMany(User, { through: ReadingList, as: 'users_reading' });
+Sprint.hasMany(Issue);
+Issue.belongsTo(Comment);
 
-// now using migrations, so this code is obsolete
-// Blog.sync({ alter: true, logging: false });
-// User.sync({ alter: true, logging: false });
+Project.hasMany(Sprint);
+Sprint.belongsTo(Project);
+
+User.hasMany(Comment);
+Comment.belongsTo(User, { as: 'author' });
+
+User.hasMany(Issue);
+Issue.belongsTo(User, { as: 'author' });
+User.hasMany(Issue);
+Issue.belongsTo(User, { as: 'assignee' });
+
+User.hasMany(Sprint);
+Sprint.belongsTo(User, { as: 'author' });
+
+User.hasMany(Project);
+Project.belongsTo(User, { as: 'author' });
 
 module.exports = {
-  Blog,
   User,
-  ReadingList,
-  Session,
+  Issue,
+  Comment,
+  Sprint,
+  Project,
 };

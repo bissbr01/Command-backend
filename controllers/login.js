@@ -3,7 +3,7 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 
 const { User, Session } = require('../models');
-const { SECRET } = require('../utils/config');
+const { SECRET } = require('../util/config');
 
 router.post('/', async (req, res) => {
   const { body } = req;

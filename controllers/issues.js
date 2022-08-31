@@ -1,8 +1,8 @@
 const { Op } = require('sequelize');
 const router = require('express').Router();
-const { Blog, User, Session } = require('../models');
-const authorizeUser = require('../utils/authorizeUser');
-const tokenExtractor = require('../utils/tokenExtractor');
+const { Issue, User, Session } = require('../models');
+const authorizeUser = require('../util/authorizeUser');
+const tokenExtractor = require('../util/tokenExtractor');
 
 router.get('/', async (req, res) => {
   let where = {};
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
       ],
     };
   }
-  const blogs = await Blog.findAll({
+  const issues = await Issue.findAll({
     attributes: { exclude: ['userId'] },
     include: {
       model: User,
@@ -23,12 +23,12 @@ router.get('/', async (req, res) => {
     where,
     order: [['likes', 'DESC']],
   });
-  if (!blogs) throw new Error('Resource not found');
-  res.json(blogs);
+  if (!issues) throw new Error('Resource not found');
+  res.json(issues);
 });
 
 router.get('/:id', async (req, res) => {
-  const blog = await Blog.findByPk(req.params.id);
+  const blog = await Issue.findByPk(req.params.id);
   if (!blog) throw new Error('Resource not found');
   res.json(blog);
 });
@@ -36,7 +36,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', tokenExtractor, authorizeUser, async (req, res) => {
   const user = req.authorizedUser;
   try {
-    const blog = await Blog.create({ ...req.body, userId: user.id });
+    const blog = await Issue.create({ ...req.body, userId: user.id });
 
     return res.json(blog);
   } catch (error) {
@@ -45,7 +45,7 @@ router.post('/', tokenExtractor, authorizeUser, async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const blog = await Blog.findByPk(req.params.id);
+  const blog = await Issue.findByPk(req.params.id);
 
   if (!blog) throw new Error('Resource not found');
 
@@ -57,7 +57,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', tokenExtractor, authorizeUser, async (req, res) => {
   console.log('params.id: ', req.params.id);
 
-  const blog = await Blog.findByPk(req.params.id);
+  const blog = await Issue.findByPk(req.params.id);
   if (!blog) throw new Error('Resource not found');
   console.log('blog found: ', blog);
 

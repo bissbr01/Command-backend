@@ -1,14 +1,9 @@
 const bcrypt = require('bcrypt');
 const router = require('express').Router();
-const { User, Blog } = require('../models');
+const { User, Project } = require('../models');
 
 router.get('/', async (req, res) => {
-  const users = await User.findAll({
-    include: {
-      model: Blog,
-      attributes: { exclude: ['userId'] },
-    },
-  });
+  const users = await User.findAll();
   res.json(users);
 });
 
@@ -24,33 +19,33 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/:username', async (req, res) => {
-  const where = {};
-  if (req.query.read) {
-    where.read = req.query.read === 'true';
-  }
-  const user = await User.findOne({
-    where: { username: req.params.username },
-    include: {
-      model: Blog,
-      as: 'reading_list',
-      attributes: { exclude: ['userId'] },
-      through: {
-        where,
-        attributes: ['read', 'id'],
-      },
-    },
-  });
-  if (!user) throw new Error('Resource not found');
-  res.json(user);
-});
+// router.get('/:username', async (req, res) => {
+//   const where = {};
+//   if (req.query.read) {
+//     where.read = req.query.read === 'true';
+//   }
+//   const user = await User.findOne({
+//     where: { username: req.params.username },
+//     include: {
+//       model: Blog,
+//       as: 'reading_list',
+//       attributes: { exclude: ['userId'] },
+//       through: {
+//         where,
+//         attributes: ['read', 'id'],
+//       },
+//     },
+//   });
+//   if (!user) throw new Error('Resource not found');
+//   res.json(user);
+// });
 
-router.put('/:username', async (req, res) => {
-  const user = await User.findOne({ where: { username: req.params.username } });
-  if (!user) throw new Error('Resource not found');
-  user.username = req.body.username;
-  await user.save();
-  res.json(user);
-});
+// router.put('/:username', async (req, res) => {
+//   const user = await User.findOne({ where: { username: req.params.username } });
+//   if (!user) throw new Error('Resource not found');
+//   user.username = req.body.username;
+//   await user.save();
+//   res.json(user);
+// });
 
 module.exports = router;

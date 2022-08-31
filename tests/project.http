@@ -1,0 +1,14 @@
+@baseUrl=http://localhost:3001/api/projects
+###
+
+GET {{baseUrl}}
+
+###
+
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "My first project",
+  "authorId": 2
+}

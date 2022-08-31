@@ -18,8 +18,9 @@ POST {{baseUrl}}
 Content-Type: application/json
 
 {
-  "username": "James@google.com",
-  "name": "James M",
+  "firstName": "Brad", 
+  "lastName": "Bissell", 
+  "email": "bb@gmail.com", 
   "password": "secret"
 }
 
