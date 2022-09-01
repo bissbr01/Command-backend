@@ -1,0 +1,15 @@
+@baseUrl=http://localhost:3001/api/sprints
+###
+
+GET {{baseUrl}}
+
+###
+
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "goal": "Create a minimum usable product.",
+  "projectId": 4,
+  "authorId": 1
+}

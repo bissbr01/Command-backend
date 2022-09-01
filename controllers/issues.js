@@ -30,12 +30,11 @@ router.get('/:id', async (req, res) => {
   res.json(blog);
 });
 
-router.post('/', tokenExtractor, authorizeUser, async (req, res) => {
-  const user = req.authorizedUser;
+router.post('/', async (req, res) => {
   try {
-    const blog = await Issue.create({ ...req.body, userId: user.id });
+    const issue = await Issue.create(req.body);
 
-    return res.json(blog);
+    return res.json(issue);
   } catch (error) {
     return res.status(400).json({ error });
   }

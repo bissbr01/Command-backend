@@ -9,6 +9,10 @@ POST {{baseUrl}}
 Content-Type: application/json
 
 {
-  "title": "My second project",
-  "authorId": 1
+  "status": "todo",
+  "title": "As Mary, I want to login to the app to view admin area.",
+  "description": "A test user story",
+  "asigneeId": 1,
+  "authorId": 1,
+  "sprintId": 2
 }
