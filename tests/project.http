@@ -9,6 +9,6 @@ POST {{baseUrl}}
 Content-Type: application/json
 
 {
-  "title": "My first project",
-  "authorId": 2
+  "title": "My second project",
+  "authorId": 1
 }

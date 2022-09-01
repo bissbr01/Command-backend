@@ -3,10 +3,15 @@ const router = require('express').Router();
 const { Project } = require('../models');
 
 router.get('/', async (req, res) => {
-  const projects = Project.findAll({
-    // include: 'author',
-  });
-  res.json(projects);
+  try {
+    const projects = Project.findAll({
+      // include: 'author',
+    });
+    res.json(projects);
+  } catch (error) {
+    console.log(error);
+    throw new Error('Resource not found');
+  }
 });
 
 router.post('/', async (req, res) => {
