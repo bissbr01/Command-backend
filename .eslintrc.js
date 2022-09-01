@@ -17,5 +17,6 @@ module.exports = {
     'no-process-exit': 'off',
     'object-shorthand': 'off',
     'class-methods-use-this': 'off',
+    'no-return-assign': 'except-parens',
   },
 };

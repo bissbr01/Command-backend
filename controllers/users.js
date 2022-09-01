@@ -42,12 +42,29 @@ router.post('/', async (req, res) => {
 //   res.json(user);
 // });
 
-// router.put('/:username', async (req, res) => {
-//   const user = await User.findOne({ where: { username: req.params.username } });
-//   if (!user) throw new Error('Resource not found');
-//   user.username = req.body.username;
-//   await user.save();
-//   res.json(user);
-// });
+router.put('/:id', async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) throw new Error('Resource not found');
+    const attributes = Object.keys(req.body);
+    attributes.forEach((attr) => (user[attr] = req.body[attr]));
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) throw new Error('Resource not found');
+    const result = await user.destroy();
+    if (!result) throw new Error('Unable to perform operation');
+    res.status(200).json({ result });
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 module.exports = router;

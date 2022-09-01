@@ -41,33 +41,29 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const issue = await Issue.findByPk(req.params.id);
+  try {
+    const issue = await Issue.findByPk(req.params.id);
+    if (!issue) throw new Error('Resource not found');
+    console.log('req.body: ', req.body);
 
-  if (!issue) throw new Error('Resource not found');
-
-  // validate data
-  const { ...attributes } = req.body;
-  issue.likes += 1;
-  await issue.save();
-  res.json({ likes: issue.likes });
+    const attributes = Object.keys(req.body);
+    attributes.forEach((attr) => (issue[attr] = req.body[attr]));
+    await issue.save();
+    res.json(issue);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-router.delete('/:id', tokenExtractor, authorizeUser, async (req, res) => {
-  console.log('params.id: ', req.params.id);
+router.delete('/:id', async (req, res) => {
+  const issue = await Issue.findByPk(req.params.id);
+  if (!issue) throw new Error('Resource not found');
 
-  const blog = await Issue.findByPk(req.params.id);
-  if (!blog) throw new Error('Resource not found');
-  console.log('blog found: ', blog);
+  // if (user.id !== issue.userId) {
+  //   throw new Error('You do not have permission to perform this action');
+  // }
 
-  const user = req.authorizedUser;
-
-  console.log('user found: ', user);
-
-  if (user.id !== blog.userId) {
-    throw new Error('You do not have permission to perform this action');
-  }
-
-  const result = await blog.destroy();
+  const result = await issue.destroy();
   if (!result) throw new Error('Unable to perform operation');
   res.status(200).json({ result });
 });

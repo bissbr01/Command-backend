@@ -9,10 +9,24 @@ POST {{baseUrl}}
 Content-Type: application/json
 
 {
-  "status": "todo",
-  "title": "As Mary, I want to login to the app to view admin area.",
+  "status": "backlog",
+  "title": "As Fred, I want to see my data visualized so I can make better decisions.",
   "description": "A test user story",
   "asigneeId": 1,
   "authorId": 1,
   "sprintId": 2
 }
+
+###
+
+PUT {{baseUrl}}/1
+Content-Type: application/json
+
+{
+  "type": "userStory"
+}
+
+###
+
+DELETE {{baseUrl}}/3
+Content-Type: application/json
