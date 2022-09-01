@@ -41,13 +41,15 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const blog = await Issue.findByPk(req.params.id);
+  const issue = await Issue.findByPk(req.params.id);
 
-  if (!blog) throw new Error('Resource not found');
+  if (!issue) throw new Error('Resource not found');
 
-  blog.likes += 1;
-  await blog.save();
-  res.json({ likes: blog.likes });
+  // validate data
+  const { ...attributes } = req.body;
+  issue.likes += 1;
+  await issue.save();
+  res.json({ likes: issue.likes });
 });
 
 router.delete('/:id', tokenExtractor, authorizeUser, async (req, res) => {
