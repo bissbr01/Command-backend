@@ -4,35 +4,28 @@ const Comment = require('./comment');
 const Sprint = require('./sprint');
 const Project = require('./project');
 
-// Issue.hasMany(Comment);
-// Comment.belongsTo(Issue);
+Project.hasMany(Sprint);
+Sprint.belongsTo(Project);
 
-// Sprint.hasMany(Issue);
-// Issue.belongsTo(Comment);
+Sprint.hasMany(Issue);
+Issue.belongsTo(Sprint);
 
-// Project.hasMany(Sprint);
-// Sprint.belongsTo(Project);
+Issue.hasMany(Comment);
+Comment.belongsTo(Issue);
 
-// User.hasMany(Comment);
-// Comment.belongsTo(User, { as: 'author', foreignKey: 'authorId' });
+User.hasMany(Comment, { foreignKey: 'authorId' });
+Comment.belongsTo(User, { as: 'author' });
 
-// User.hasMany(Issue);
-// Issue.belongsTo(User, { as: 'author', foreignKey: 'authorId' });
-// User.hasMany(Issue);
-// Issue.belongsTo(User, { as: 'assignee', foreignKey: 'authorId' });
+User.hasMany(Issue, { foreignKey: 'authorId' });
+Issue.belongsTo(User, { as: 'author' });
+User.hasMany(Issue, { foreignKey: 'assigneeId' });
+Issue.belongsTo(User, { as: 'assignee' });
 
-// User.hasMany(Sprint);
-// Sprint.belongsTo(User, { as: 'author', foreignKey: 'authorId' });
+User.hasMany(Sprint, { foreignKey: 'authorId' });
+Sprint.belongsTo(User, { as: 'author' });
 
-User.hasMany(Project, {
-  foreignKey: {
-    name: 'authorId', // the JavaScript attribute name
-    field: 'author_id', // the column name
-  },
-});
-Project.belongsTo(User, {
-  as: 'author',
-});
+User.hasMany(Project, { foreignKey: 'authorId' });
+Project.belongsTo(User, { as: 'author' });
 
 module.exports = {
   User,

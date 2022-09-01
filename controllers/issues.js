@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const router = require('express').Router();
-const { Issue, User, Session } = require('../models');
+const { Issue, User } = require('../models');
 const authorizeUser = require('../util/authorizeUser');
 const tokenExtractor = require('../util/tokenExtractor');
 
@@ -15,13 +15,10 @@ router.get('/', async (req, res) => {
     };
   }
   const issues = await Issue.findAll({
-    attributes: { exclude: ['userId'] },
-    include: {
-      model: User,
-      attributes: ['name'],
-    },
+    // attributes: { exclude: ['userId'] },
+    include: 'author',
     where,
-    order: [['likes', 'DESC']],
+    // order: [['likes', 'DESC']],
   });
   if (!issues) throw new Error('Resource not found');
   res.json(issues);

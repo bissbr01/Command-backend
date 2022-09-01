@@ -1,0 +1,14 @@
+@baseUrl=http://localhost:3001/api/issues
+###
+
+GET {{baseUrl}}
+
+###
+
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "My second project",
+  "authorId": 1
+}

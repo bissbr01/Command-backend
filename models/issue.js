@@ -14,7 +14,7 @@ Issue.init(
       allowNull: false,
       defaultValue: 'todo',
     },
-    attachmentURI: {
+    attachmentUri: {
       type: DataTypes.STRING,
     },
     description: {

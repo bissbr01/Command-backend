@@ -127,7 +127,7 @@ const up = async ({ context: queryInterface }) => {
       allowNull: false,
       defaultValue: 'todo',
     },
-    attachmentURI: {
+    attachmentUri: {
       type: DataTypes.STRING,
     },
     description: {

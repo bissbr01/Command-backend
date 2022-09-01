@@ -3,6 +3,7 @@ const { PORT } = require('./util/config');
 const { connectToDatabase } = require('./util/db');
 const usersRouter = require('./controllers/users');
 const projectsRouter = require('./controllers/projects');
+const issuesRouter = require('./controllers/issues');
 
 const errorHandler = require('./util/errorHandler');
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use('/api/users', usersRouter);
 app.use('/api/projects', projectsRouter);
+app.use('/api/issues', issuesRouter);
 
 app.use(errorHandler);
 
