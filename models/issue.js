@@ -12,10 +12,14 @@ Issue.init(
     status: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isIn: [['backlog', 'todo', 'inProgress', 'done']],
+      },
       defaultValue: 'todo',
     },
     attachmentUri: {
       type: DataTypes.STRING,
+      isUrl: true,
     },
     description: {
       type: DataTypes.TEXT,
@@ -25,7 +29,10 @@ Issue.init(
     },
     type: {
       type: DataTypes.STRING,
-      defaultValue: 'user-story',
+      validate: {
+        isIn: [['userStory', 'bug', 'task']],
+      },
+      defaultValue: 'userStory',
     },
     assigneeId: {
       type: DataTypes.INTEGER,
