@@ -1,21 +1,10 @@
-const { User, Session } = require('../models');
+const { auth, requiredScopes } = require('express-oauth2-jwt-bearer');
 
-const authorizeUser = async (req, res, next) => {
-  if (!req.decodedToken) throw new Error('Not logged in');
-  try {
-    const user = await User.findByPk(req.decodedToken.id);
-    if (!user) throw new Error('Not logged in');
-    if (user.disabled) throw new Error('Your account has been disabled');
-    const session = await Session.findOne({ where: { token: req.token } });
-    if (!session) throw new Error('Your session has expired');
+// Authorization middleware. When used, the Access Token must
+// exist and be verified against the Auth0 JSON Web Key Set.
+const checkJwt = auth({
+  audience: 'https://scrum-management-backend.herokuapp.com/',
+  issuerBaseURL: `https://dev-w8p6njku.us.auth0.com/`,
+});
 
-    req.authorizedUser = user;
-    console.log('authed user: ', req.authorizedUser);
-  } catch (error) {
-    console.log(error.message);
-  }
-
-  next();
-};
-
-module.exports = authorizeUser;
+module.exports = { checkJwt, requiredScopes };

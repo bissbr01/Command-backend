@@ -1,0 +1,16 @@
+@baseUrl=http://localhost:3001/api/login
+###
+
+POST {{baseUrl}}
+
+###
+
+POST https://dev-w8p6njku.us.auth0.com/oauth/token
+Content-Type: application/json
+
+{
+  "client_id": "ob4DlgUf1NJhn09HpsUlMpnJrjvSVOy8",
+  "client_secret": "C7a8R3Q4iB2VEjakO8VcKuN_m4cZJZbE18RGOgAXrcrx_85D_uVGYytO_B0l8t8Z",
+  "audience": "https://scrum-management-backend.herokuapp.com/",
+  "grant_type": "client_credentials"
+}
