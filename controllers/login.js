@@ -3,24 +3,8 @@ const axios = require('axios').default;
 const bcrypt = require('bcrypt');
 
 router.post('/', async (req, res) => {
-  // const { body } = req;
-
-  // const user = await User.findOne({
-  //   where: {
-  //     username: body.username,
-  //   },
-  // });
-  // if (!user) {
-  //   throw new Error('Resource not found');
-  // }
-
-  // if (user.disabled) throw new Error('account disabled, please contact admin');
-  // const passwordCorrect = await bcrypt.compare(body.password, user.password);
-  // if (!passwordCorrect) {
-  //   throw new Error('Invalid username or password');
-  // }
-
   // post to AuthO app api for token
+  // currently only produces test development token.
   try {
     const response = await axios.post(
       'https://dev-w8p6njku.us.auth0.com/oauth/token',
@@ -33,6 +17,7 @@ router.post('/', async (req, res) => {
       }
     );
     const token = response.data.access_token;
+    console.log('token: ', token);
     res.status(200).send({ token });
   } catch (error) {
     console.error(error);

@@ -1,11 +1,15 @@
 @baseUrl=http://localhost:3001/api/issues
+
+@token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlpzQkFmTFF5LUswWjMxM1UxNE1GSCJ9.eyJpc3MiOiJodHRwczovL2Rldi13OHA2bmprdS51cy5hdXRoMC5jb20vIiwic3ViIjoib2I0RGxnVWYxTkpobjA5SHBzVWxNcG5Kcmp2U1ZPeThAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vc2NydW0tbWFuYWdlbWVudC1iYWNrZW5kLmhlcm9rdWFwcC5jb20vIiwiaWF0IjoxNjYyMDgwNjY5LCJleHAiOjE2NjIxNjcwNjksImF6cCI6Im9iNERsZ1VmMU5KaG4wOUhwc1VsTXBuSnJqdlNWT3k4IiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.ADkfD3t3gUaqhIxLnuVOeN5bxMg-QDjyo6eOUvnwKhRojYLf4EU_BGoeDtiTwLimYqNfxTbM9HKg97IP2PtPFldFZBujbvEcPOfEKbghhNnM7vIwibT4_wkUjEfjKBBqbVoGU3z58wEuQyILJTgK3aVDVKWpoUKZ4-yECV4dokJpBmHjFCin6JtNaKg1tGaqous3hlsGCrdZPILZUkD59il6r2Z-oqmJuu6byS6AXVXECSaTlEK16Zi8TCPGFH4rrDzx-vgD3FWPuIsUyBFPbgP3UhVOLoAwxqTmc3HPmJ48tlAIeYkhr27QcVmqPuf-u4TiK7WE3QOp-zLQcpSvjg
 ###
 
 GET {{baseUrl}}
+Authorization: Bearer {{token}}
 
 ###
 
 POST {{baseUrl}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -20,6 +24,7 @@ Content-Type: application/json
 ###
 
 PUT {{baseUrl}}/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -29,4 +34,5 @@ Content-Type: application/json
 ###
 
 DELETE {{baseUrl}}/3
+Authorization: Bearer {{token}}
 Content-Type: application/json
