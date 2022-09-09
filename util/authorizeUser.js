@@ -5,7 +5,6 @@ const { AUDIENCE, ISSUER_BASE_URL } = require('./config');
 const checkJwt = auth({
   audience: AUDIENCE,
   issuerBaseURL: ISSUER_BASE_URL,
-  jwksUri: 'https://dev-w8p6njku.us.auth0.com/.well-known/jwks.json',
 });
 
 module.exports = { checkJwt, requiredScopes };
