@@ -2,7 +2,6 @@ const express = require('express');
 const { auth } = require('express-openid-connect');
 const { PORT } = require('./util/config');
 const { connectToDatabase } = require('./util/db');
-const jwtCheck = require('./util/jwtCheck');
 const usersRouter = require('./controllers/users');
 const projectsRouter = require('./controllers/projects');
 const sprintsRouter = require('./controllers/sprints');
