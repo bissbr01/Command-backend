@@ -1,5 +1,6 @@
 const { expressjwt: jwt } = require('express-jwt');
 const jwks = require('jwks-rsa');
+const { AUDIENCE, ISSUER_BASE_URL } = require('./config');
 
 const jwtCheck = jwt({
   secret: jwks.expressJwtSecret({
@@ -8,8 +9,8 @@ const jwtCheck = jwt({
     jwksRequestsPerMinute: 5,
     jwksUri: 'https://dev-w8p6njku.us.auth0.com/.well-known/jwks.json',
   }),
-  audience: 'https://scrum-management-backend.onrender.com',
-  issuer: 'https://dev-w8p6njku.us.auth0.com/',
+  audience: AUDIENCE,
+  issuer: ISSUER_BASE_URL,
   algorithms: ['RS256'],
 });
 

@@ -13,6 +13,6 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "title": "My third project",
+  "title": "My first project",
   "authorId": 1
 }

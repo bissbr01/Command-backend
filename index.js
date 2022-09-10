@@ -1,13 +1,12 @@
 const express = require('express');
 const cors = require('cors');
-const { auth } = require('express-openid-connect');
+const jwtCheck = require('./util/jwtCheck');
 const { PORT } = require('./util/config');
 const { connectToDatabase } = require('./util/db');
 const usersRouter = require('./controllers/users');
 const projectsRouter = require('./controllers/projects');
 const sprintsRouter = require('./controllers/sprints');
 const issuesRouter = require('./controllers/issues');
-const authConfig = require('./util/authConfig');
 const errorHandler = require('./util/errorHandler');
 
 const app = express();
@@ -15,8 +14,8 @@ const app = express();
 app.use(cors);
 app.use(express.json());
 
-// auth0 router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(authConfig));
+// require auth0 token to access all resources
+app.use(jwtCheck);
 
 app.use('/api/users', usersRouter);
 app.use('/api/projects', projectsRouter);
