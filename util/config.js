@@ -5,4 +5,6 @@ module.exports = {
   PORT: process.env.PORT || 3001,
   AUDIENCE: process.env.AUTH0_AUDIENCE,
   ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL,
+  SECRET: process.env.AUTH0_SECRET,
+  CLIENT_ID: process.env.AUTH0_CLIENT_ID,
 };

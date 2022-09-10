@@ -8,7 +8,7 @@ const errorHandler = (err, req, res, next) => {
   if (err.message === 'account disabled, please contact admin') {
     res.status(401).end();
   }
-  if (err.message === 'Not logged in') {
+  if (err.message === 'You must be authenticated to perform this action.') {
     res.status(403).end();
   }
   if (err.message === 'Your account has been disabled') {

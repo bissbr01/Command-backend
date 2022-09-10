@@ -1,7 +1,6 @@
 const { Op } = require('sequelize');
-const router = require('express').Router();
 const { Issue } = require('../models');
-// const { checkJwt, requiredScopes } = require('../util/authorizeUser');
+const router = require('express').Router();
 
 router.get('/', async (req, res) => {
   let where = {};

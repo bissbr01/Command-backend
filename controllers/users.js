@@ -11,6 +11,9 @@ router.get('/', async (req, res) => {
 
 // eslint-disable-next-line consistent-return
 router.post('/', async (req, res) => {
+  if (!req.oidc.isAuthenticated()) {
+    throw new Error('You must be authenticated to perform this action.');
+  }
   try {
     const saltRounds = 8;
     const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
