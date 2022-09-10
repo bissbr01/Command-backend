@@ -11,7 +11,7 @@ const errorHandler = require('./util/errorHandler');
 
 const app = express();
 
-app.use(cors);
+app.use(cors());
 app.use(express.json());
 
 // require auth0 token to access all resources
