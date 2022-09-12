@@ -1,0 +1,35 @@
+@baseUrl=http://localhost:3001/api/comments
+
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzAwNzQ5OCwiZXhwIjoxNjYzMDkzODk4fQ._TJbGKQRlyrQiRZ0l-JKFolMTPpV38eBDa3F-5-FygY
+###
+
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+###
+
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "text": "This issue is important.  Lets fix it!",
+  "authorId": 1,
+  "issueId": 1
+}
+
+###
+
+PUT {{baseUrl}}/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "userStory"
+}
+
+###
+
+DELETE {{baseUrl}}/3
+Authorization: Bearer {{token}}
+Content-Type: application/json
