@@ -1,9 +1,24 @@
-require('dotenv').config();
+require('dotenv').config()
+
+const AUDIENCE =
+  process.env.NODE_ENV === 'production'
+    ? process.env.AUDIENCE
+    : 'http://localhost:3001'
+const ISSUER =
+  process.env.NODE_ENV === 'production'
+    ? process.env.ISSUER
+    : 'http://localhost:3001'
+
+// Consider configuring development and test database
+const DATABASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.DATABASE_URL
+    : process.env.DATABASE_URL
 
 module.exports = {
-  DATABASE_URL: process.env.DATABASE_URL,
+  DATABASE_URL: DATABASE_URL,
+  AUDIENCE: AUDIENCE,
+  ISSUER: ISSUER,
   PORT: process.env.PORT || 3001,
-  AUDIENCE: process.env.AUTH0_AUDIENCE,
-  ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL,
-  CLIENT_ID: process.env.AUTH0_CLIENT_ID,
-};
+  SECRET: process.env.SECRET,
+}
