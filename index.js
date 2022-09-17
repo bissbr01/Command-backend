@@ -16,7 +16,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-// require auth0 token to access all resources
+// require auth token to access all resources except those excluded in config
 app.use(jwtVerify)
 
 app.use('/api/users', usersRouter)

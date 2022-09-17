@@ -6,6 +6,6 @@ const jwtVerify = jwt({
   algorithms: ['HS256'],
   // audience: AUDIENCE,
   // issuer: ISSUER,
-}).unless({ path: ['/api/login'] })
+}).unless({ path: ['/api/login', { url: '/api/users', methods: ['POST'] }] })
 
 module.exports = jwtVerify
