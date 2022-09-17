@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:3001/api/issues
 
-@token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlpzQkFmTFF5LUswWjMxM1UxNE1GSCJ9.eyJpc3MiOiJodHRwczovL2Rldi13OHA2bmprdS51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjMxYTlkMzY4NDAyMjFkMWQyMzE3Mzc5IiwiYXVkIjpbImh0dHBzOi8vc2NydW0tbWFuYWdlbWVudC1iYWNrZW5kLm9ucmVuZGVyLmNvbSIsImh0dHBzOi8vZGV2LXc4cDZuamt1LnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2NjI5NDk0NzMsImV4cCI6MTY2MzAzNTg3MywiYXpwIjoibjBJRllFRU1tZ3hoeUFtaXRMb2tlWUdWeUhLY3JSU1oiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIGFkbWluIHVzZXIiLCJwZXJtaXNzaW9ucyI6WyJhZG1pbiIsInVzZXIiXX0.YaD8Prggp3tib1_BoJguRcUB3bcfIX0R0x4V7dO44utBkGZvkOFHB5Q9xOeldjdst3B2PxsdDmAiYkJg1gNagQ8AsOrZmAWytdVUDIkl4dX3orChZHxRRwUcjiltER4kap2IjDI3mM0hNtz0WWNVDooSIC9_EOmqXOG4PM2Q8Lw4Map52dkERPrfBwAz0L5V2xwjfgkfZu6SyFr1t5WQ7Lvs7aYHJQqVJI35v9xnqcBnSLL2VJVn_j6ODBEQSxsnZonTktEJA5tChG9ppjk6asca-baXik59MB1H0SlM3b6YqK2cOz_QBGYtxru5pZHyizAcnsW2bYRF6TxnFQlXIg
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzM4MDQ1MSwiZXhwIjoxNjYzNDY2ODUxfQ.Co-yTx4Clt-yGI79LJn5YpTH8ty_q47RA9b_9I2E-5Q
 ###
 
 GET {{baseUrl}}
@@ -13,8 +13,8 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "status": "backlog",
-  "title": "As Fred, I want to see my data visualized so I can make better decisions.",
+  "status": "todo",
+  "title": "As Jessie, I want to see my data visualized so I can make better decisions.",
   "description": "A test user story",
   "asigneeId": 1,
   "authorId": 1,
