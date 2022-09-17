@@ -1,5 +1,5 @@
 @baseUrl=http://localhost:3001/api/users
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzAwNzQ5OCwiZXhwIjoxNjYzMDkzODk4fQ._TJbGKQRlyrQiRZ0l-JKFolMTPpV38eBDa3F-5-FygY
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzQ0MzYwNCwiZXhwIjoxNjYzNTMwMDA0fQ.SAPSSd7CAigiqo0kOrLoQZ_RL1ZPM25562n1WDAQA4Q
 
 ###
 
@@ -8,7 +8,10 @@ Authorization: Bearer {{token}}
 
 ###
 
+GET {{baseUrl}}/1
+Authorization: Bearer {{token}}
 
+###
 
 POST {{baseUrl}}
 Authorization: Bearer {{token}}

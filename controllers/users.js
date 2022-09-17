@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const router = require('express').Router()
-const { User, Project } = require('../models')
+const { User, Project, Sprint, Issue } = require('../models')
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
@@ -29,7 +29,9 @@ router.get('/:id', async (req, res) => {
   // if (req.query.read) {
   //   where.read = req.query.read === 'true';
   // }
-  const user = await User.findByPk(req.params.id)
+  const user = await User.findByPk(req.params.id, {
+    include: [Project, Sprint, { model: Issue, as: 'author' }],
+  })
   if (!user) throw new Error('Resource not found')
   res.json(user)
 })

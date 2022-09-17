@@ -1,31 +1,31 @@
-const User = require('./user');
-const Issue = require('./issue');
-const Comment = require('./comment');
-const Sprint = require('./sprint');
-const Project = require('./project');
+const User = require('./user')
+const Issue = require('./issue')
+const Comment = require('./comment')
+const Sprint = require('./sprint')
+const Project = require('./project')
 
-Project.hasMany(Sprint);
-Sprint.belongsTo(Project);
+Project.hasMany(Sprint)
+Sprint.belongsTo(Project)
 
-Sprint.hasMany(Issue);
-Issue.belongsTo(Sprint);
+Sprint.hasMany(Issue)
+Issue.belongsTo(Sprint)
 
-Issue.hasMany(Comment);
-Comment.belongsTo(Issue);
+Issue.hasMany(Comment)
+Comment.belongsTo(Issue)
 
-User.hasMany(Comment, { foreignKey: 'authorId' });
-Comment.belongsTo(User, { as: 'author' });
+User.hasMany(Comment, { foreignKey: 'authorId' })
+Comment.belongsTo(User, { as: 'author' })
 
-User.hasMany(Issue, { foreignKey: 'authorId' });
-Issue.belongsTo(User, { as: 'author' });
-User.hasMany(Issue, { foreignKey: 'assigneeId' });
-Issue.belongsTo(User, { as: 'assignee' });
+User.hasMany(Issue, { as: 'author', foreignKey: 'authorId' })
+Issue.belongsTo(User)
+User.hasMany(Issue, { as: 'assignee', foreignKey: 'assigneeId' })
+Issue.belongsTo(User)
 
-User.hasMany(Sprint, { foreignKey: 'authorId' });
-Sprint.belongsTo(User, { as: 'author' });
+User.hasMany(Sprint, { foreignKey: 'authorId' })
+Sprint.belongsTo(User, { as: 'author' })
 
-User.hasMany(Project, { foreignKey: 'authorId' });
-Project.belongsTo(User, { as: 'author' });
+User.hasMany(Project, { foreignKey: 'authorId' })
+Project.belongsTo(User, { as: 'author' })
 
 module.exports = {
   User,
@@ -33,4 +33,4 @@ module.exports = {
   Comment,
   Sprint,
   Project,
-};
+}
