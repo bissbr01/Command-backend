@@ -30,7 +30,12 @@ router.get('/:id', async (req, res) => {
   //   where.read = req.query.read === 'true';
   // }
   const user = await User.findByPk(req.params.id, {
-    include: [Project, Sprint, { model: Issue, as: 'author' }],
+    include: [
+      Project,
+      Sprint,
+      { model: Issue, as: 'authoredIssues' },
+      { model: Issue, as: 'assignedIssues' },
+    ],
   })
   if (!user) throw new Error('Resource not found')
   res.json(user)

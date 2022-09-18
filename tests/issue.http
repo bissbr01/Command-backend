@@ -14,10 +14,10 @@ Content-Type: application/json
 
 {
   "status": "todo",
-  "title": "As Jessie, I want to see my data visualized so I can make better decisions.",
+  "title": "As Jacob, I want to see my data visualized so I can make better decisions.",
   "description": "A test user story",
-  "asigneeId": 1,
-  "authorId": 1,
+  "assigneeId": 1,
+  "authorId": 2,
   "sprintId": 1
 }
 
