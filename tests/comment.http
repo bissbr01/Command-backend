@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:3001/api/comments
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzAwNzQ5OCwiZXhwIjoxNjYzMDkzODk4fQ._TJbGKQRlyrQiRZ0l-JKFolMTPpV38eBDa3F-5-FygY
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzU1NzEwMCwiZXhwIjoxNjYzNjQzNTAwfQ.ZTwAZtnYtiizQBwFSKJ0ShJCHQoC6HUn3MD5Oz5Lowk
 ###
 
 GET {{baseUrl}}
@@ -12,12 +12,18 @@ POST {{baseUrl}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
+[
 {
-  "text": "This issue is important.  Lets fix it!",
+  "text": "Good idea",
+  "authorId": 1,
+  "issueId": 1
+},
+{
+  "text": "What do you mean?",
   "authorId": 1,
   "issueId": 1
 }
-
+]
 ###
 
 PUT {{baseUrl}}/1

@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require('sequelize');
-const { sequelize } = require('../util/db');
+const { Model, DataTypes } = require('sequelize')
+const { sequelize } = require('../util/db')
 
 class Issue extends Model {}
 Issue.init(
@@ -34,6 +34,9 @@ Issue.init(
       },
       defaultValue: 'userStory',
     },
+    boardOrder: {
+      type: DataTypes.INTEGER,
+    },
     assigneeId: {
       type: DataTypes.INTEGER,
       references: { model: 'users', key: 'id' },
@@ -61,6 +64,6 @@ Issue.init(
     timestamps: true,
     modelName: 'issue',
   }
-);
+)
 
-module.exports = Issue;
+module.exports = Issue

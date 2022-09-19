@@ -54,6 +54,24 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.patch('/me', async (req, res) => {
+  try {
+    const issue = await Issue.findAll({
+      where: {
+        [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
+      },
+    })
+    if (!issue) throw new Error('Resource not found')
+    console.log('req.body: ', req.body)
+
+    const attributes = Object.keys(req.body)
+    attributes.forEach((attr) => (issue[attr] = req.body[attr]))
+    await issue.save()
+    res.json(issue)
+  } catch (error) {
+    console.log(error)
+  }
+})
 router.patch('/:id', async (req, res) => {
   try {
     const issue = await Issue.findByPk(req.params.id)
