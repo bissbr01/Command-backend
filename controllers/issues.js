@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.put('/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
     const issue = await Issue.findByPk(req.params.id)
     if (!issue) throw new Error('Resource not found')

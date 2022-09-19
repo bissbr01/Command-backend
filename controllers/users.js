@@ -37,7 +37,7 @@ router.get('/me', async (req, res) => {
   res.json(user)
 })
 
-router.put('/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id)
     if (!user) throw new Error('Resource not found')

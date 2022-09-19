@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.put('/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
     const comment = await Comment.findByPk(req.params.id)
     if (!comment) throw new Error('Resource not found')
