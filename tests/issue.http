@@ -1,9 +1,14 @@
 @baseUrl=http://localhost:3001/api/issues
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzM4MDQ1MSwiZXhwIjoxNjYzNDY2ODUxfQ.Co-yTx4Clt-yGI79LJn5YpTH8ty_q47RA9b_9I2E-5Q
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzU1NzEwMCwiZXhwIjoxNjYzNjQzNTAwfQ.ZTwAZtnYtiizQBwFSKJ0ShJCHQoC6HUn3MD5Oz5Lowk
 ###
 
 GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+###
+
+GET {{baseUrl}}/me
 Authorization: Bearer {{token}}
 
 ###

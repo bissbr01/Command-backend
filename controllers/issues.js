@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { Issue } = require('../models')
+const { Issue, User } = require('../models')
 const router = require('express').Router()
 
 router.get('/', async (req, res) => {
@@ -17,6 +17,17 @@ router.get('/', async (req, res) => {
     include: 'author',
     where,
     // order: [['likes', 'DESC']],
+  })
+  if (!issues) throw new Error('Resource not found')
+  res.json(issues)
+})
+
+router.get('/me', async (req, res) => {
+  console.log('auth', req.auth)
+  const issues = await Issue.findAll({
+    where: {
+      [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
+    },
   })
   if (!issues) throw new Error('Resource not found')
   res.json(issues)
