@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { Issue, User } = require('../models')
+const { Issue, User, Sprint } = require('../models')
 const router = require('express').Router()
 
 router.get('/', async (req, res) => {
@@ -28,6 +28,11 @@ router.get('/me', async (req, res) => {
     where: {
       [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
     },
+    include: [
+      Sprint,
+      { model: User, as: 'author' },
+      { model: User, as: 'assignee' },
+    ],
   })
   if (!issues) throw new Error('Resource not found')
   res.json(issues)
