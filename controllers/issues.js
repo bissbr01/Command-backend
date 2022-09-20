@@ -33,6 +33,7 @@ router.get('/me', async (req, res) => {
       { model: User, as: 'author' },
       { model: User, as: 'assignee' },
     ],
+    order: [['boardOrder', 'ASC']],
   })
   if (!issues) throw new Error('Resource not found')
   res.json(issues)
@@ -55,19 +56,23 @@ router.post('/', async (req, res) => {
 })
 
 router.patch('/me', async (req, res) => {
+  // req.body = { issues: Issue[] } to all be patched
+  if (!'issues' in req.body || !Array.isArray(req.body.issues)) {
+    throw new Error('Your request is improperly formatted')
+  }
+  const { issues: reqIssues } = req.body
+  console.log('req Issues: ', reqIssues)
+  let result = []
   try {
-    const issue = await Issue.findAll({
-      where: {
-        [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
-      },
+    reqIssues.forEach(async (reqIssue) => {
+      const patchIssue = await Issue.findByPk(reqIssue?.id)
+      if (!patchIssue) throw new Error('Resource not found')
+      const keys = Object.keys(reqIssue)
+      keys.forEach((key) => (patchIssue[key] = reqIssue[key]))
+      await patchIssue.save()
     })
-    if (!issue) throw new Error('Resource not found')
-    console.log('req.body: ', req.body)
 
-    const attributes = Object.keys(req.body)
-    attributes.forEach((attr) => (issue[attr] = req.body[attr]))
-    await issue.save()
-    res.json(issue)
+    res.send(200)
   } catch (error) {
     console.log(error)
   }
@@ -76,7 +81,6 @@ router.patch('/:id', async (req, res) => {
   try {
     const issue = await Issue.findByPk(req.params.id)
     if (!issue) throw new Error('Resource not found')
-    console.log('req.body: ', req.body)
 
     const attributes = Object.keys(req.body)
     attributes.forEach((attr) => (issue[attr] = req.body[attr]))

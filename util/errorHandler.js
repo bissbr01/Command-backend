@@ -2,6 +2,9 @@ const errorHandler = (err, req, res, next) => {
   if (err.message === 'Unable to perform operation') {
     res.status(400).end()
   }
+  if (err.message === 'Your request is improperly formatted') {
+    res.status(400).end()
+  }
   if (err.message === 'Invalid username or password') {
     res.status(401).end()
   }

@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:3001/api/issues
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzU1NzEwMCwiZXhwIjoxNjYzNjQzNTAwfQ.ZTwAZtnYtiizQBwFSKJ0ShJCHQoC6HUn3MD5Oz5Lowk
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzY0Mzc2OCwiZXhwIjoxNjYzNzMwMTY4fQ.h1Y2cZc8IYjbsA7dPuTHh0iXcXGFPuhItcu7qh5t1nU
 ###
 
 GET {{baseUrl}}
@@ -28,12 +28,21 @@ Content-Type: application/json
 
 ###
 
-PUT {{baseUrl}}/1
+PATCH  {{baseUrl}}/me
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "type": "userStory"
+  "issues": [
+    {
+      "id": 1,
+      "boardOrder": 0
+    },
+    {
+      "id": 2,
+      "boardOrder": 1
+    }
+  ]
 }
 
 ###
