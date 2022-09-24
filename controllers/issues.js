@@ -72,7 +72,7 @@ router.patch('/me', async (req, res) => {
       await patchIssue.save()
     })
 
-    res.send(200)
+    res.json({})
   } catch (error) {
     console.log(error)
   }
