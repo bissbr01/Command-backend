@@ -18,13 +18,13 @@ router.get('/', async (req, res) => {
     where,
     order: [['createdAt', 'DESC']],
   })
-  if (!comments) throw new Error('Resource not found')
+  if (!comments) throw Error('Resource not found')
   res.json(comments)
 })
 
 router.get('/:id', async (req, res) => {
   const comment = await Comment.findByPk(req.params.id)
-  if (!comment) throw new Error('Resource not found')
+  if (!comment) throw Error('Resource not found')
   res.json(comment)
 })
 
@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   try {
     const comment = await Comment.findByPk(req.params.id)
-    if (!comment) throw new Error('Resource not found')
+    if (!comment) throw Error('Resource not found')
     console.log('req.body: ', req.body)
 
     const attributes = Object.keys(req.body)
@@ -55,14 +55,14 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const comment = await Comment.findByPk(req.params.id)
-  if (!comment) throw new Error('Resource not found')
+  if (!comment) throw Error('Resource not found')
 
   // if (user.id !== issue.userId) {
-  //   throw new Error('You do not have permission to perform this action');
+  //   throw Error('You do not have permission to perform this action');
   // }
 
   const result = await comment.destroy()
-  if (!result) throw new Error('Unable to perform operation')
+  if (!result) throw Error('Unable to perform operation')
   res.status(200).json({ result })
 })
 

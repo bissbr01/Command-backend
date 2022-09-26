@@ -18,12 +18,11 @@ router.get('/', async (req, res) => {
     where,
     // order: [['likes', 'DESC']],
   })
-  if (!issues) throw new Error('Resource not found')
+  if (!issues) throw Error('Resource not found')
   res.json(issues)
 })
 
 router.get('/me', async (req, res) => {
-  console.log('auth', req.auth)
   const issues = await Issue.findAll({
     where: {
       [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
@@ -35,13 +34,16 @@ router.get('/me', async (req, res) => {
     ],
     order: [['boardOrder', 'ASC']],
   })
-  if (!issues) throw new Error('Resource not found')
+  if (!issues) throw Error('Resource not found')
   res.json(issues)
 })
 
 router.get('/:id', async (req, res) => {
+  if (!req.params.id || req.params.id === 'undefined') {
+    throw Error('Your request is improperly formatted')
+  }
   const issue = await Issue.findByPk(req.params.id)
-  if (!issue) throw new Error('Resource not found')
+  if (!issue) throw Error('Resource not found')
   res.json(issue)
 })
 
@@ -58,7 +60,7 @@ router.post('/', async (req, res) => {
 router.patch('/me', async (req, res) => {
   // req.body = { issues: Issue[] } to all be patched
   if (!'issues' in req.body || !Array.isArray(req.body.issues)) {
-    throw new Error('Your request is improperly formatted')
+    throw Error('Your request is improperly formatted')
   }
   const { issues: reqIssues } = req.body
   console.log('req Issues: ', reqIssues)
@@ -66,7 +68,7 @@ router.patch('/me', async (req, res) => {
   try {
     reqIssues.forEach(async (reqIssue) => {
       const patchIssue = await Issue.findByPk(reqIssue?.id)
-      if (!patchIssue) throw new Error('Resource not found')
+      if (!patchIssue) throw Error('Resource not found')
       const keys = Object.keys(reqIssue)
       keys.forEach((key) => (patchIssue[key] = reqIssue[key]))
       await patchIssue.save()
@@ -80,7 +82,7 @@ router.patch('/me', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   try {
     const issue = await Issue.findByPk(req.params.id)
-    if (!issue) throw new Error('Resource not found')
+    if (!issue) throw Error('Resource not found')
 
     const attributes = Object.keys(req.body)
     attributes.forEach((attr) => (issue[attr] = req.body[attr]))
@@ -93,14 +95,14 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const issue = await Issue.findByPk(req.params.id)
-  if (!issue) throw new Error('Resource not found')
+  if (!issue) throw Error('Resource not found')
 
   // if (user.id !== issue.userId) {
-  //   throw new Error('You do not have permission to perform this action');
+  //   throw Error('You do not have permission to perform this action');
   // }
 
   const result = await issue.destroy()
-  if (!result) throw new Error('Unable to perform operation')
+  if (!result) throw Error('Unable to perform operation')
   res.status(200).json({ result })
 })
 

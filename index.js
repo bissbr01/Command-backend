@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+require('express-async-errors')
 const jwtVerify = require('./util/jwtVerify')
 const { PORT } = require('./util/config')
 const { connectToDatabase } = require('./util/db')

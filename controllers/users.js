@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 // eslint-disable-next-line consistent-return
 router.post('/', async (req, res) => {
   // if (!req.oidc.isAuthenticated()) {
-  //   throw new Error('You must be authenticated to perform this action.');
+  //   throw Error('You must be authenticated to perform this action.');
   // }
   try {
     const saltRounds = 8
@@ -33,14 +33,14 @@ router.get('/me', async (req, res) => {
       { model: Issue, as: 'assignedIssues' },
     ],
   })
-  if (!user) throw new Error('Resource not found')
+  if (!user) throw Error('Resource not found')
   res.json(user)
 })
 
 router.patch('/:id', async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id)
-    if (!user) throw new Error('Resource not found')
+    if (!user) throw Error('Resource not found')
     const attributes = Object.keys(req.body)
     attributes.forEach((attr) => (user[attr] = req.body[attr]))
     await user.save()
@@ -53,9 +53,9 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id)
-    if (!user) throw new Error('Resource not found')
+    if (!user) throw Error('Resource not found')
     const result = await user.destroy()
-    if (!result) throw new Error('Unable to perform operation')
+    if (!result) throw Error('Unable to perform operation')
     res.status(200).json({ result })
   } catch (error) {
     console.error(error)

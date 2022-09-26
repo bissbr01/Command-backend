@@ -6,7 +6,7 @@ const errorHandler = (err, req, res, next) => {
     res.status(400).end()
   }
   if (err.message === 'Invalid username or password') {
-    res.status(401).end()
+    res.status(401).json({ error: 'test' }).end()
   }
   if (err.name === 'UnauthorizedError') {
     res.status(401).end()

@@ -16,11 +16,11 @@ loginRouter.post('/', async (req, res) => {
     user === null ? false : await bcrypt.compare(password, user.password)
 
   if (!passwordCorrect) {
-    throw new Error('Invalid username or password')
+    throw Error('Invalid username or password')
   }
 
   if (user.disabled) {
-    throw new Error('Your account has been disabled')
+    throw Error('Your account has been disabled')
   }
 
   const userForToken = {

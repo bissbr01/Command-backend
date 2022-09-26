@@ -24,7 +24,7 @@ User.init(
         return `${this.firstName} ${this.lastName}`
       },
       set(value) {
-        throw new Error('Do not try to set the `fullName` value!')
+        throw Error('Do not try to set the `fullName` value!')
       },
     },
     email: {
