@@ -1,17 +1,17 @@
 const { Op } = require('sequelize')
-const { Comment } = require('../models')
+const { Comment, User } = require('../models')
 const router = require('express').Router()
 
 router.get('/', async (req, res) => {
   let where = {}
-  if (req.query.search) {
-    where = {
-      [Op.or]: [
-        { title: { [Op.iLike]: `%${req.query.search}%` } },
-        { author: { [Op.iLike]: `%${req.query.search}%` } },
-      ],
-    }
-  }
+  // if (req.query.search) {
+  //   where = {
+  //     [Op.or]: [
+  //       { title: { [Op.iLike]: `%${req.query.search}%` } },
+  //       { author: { [Op.iLike]: `%${req.query.search}%` } },
+  //     ],
+  //   }
+  // }
   const comments = await Comment.findAll({
     // attributes: { exclude: ['userId'] },
     include: 'author',
@@ -23,7 +23,9 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-  const comment = await Comment.findByPk(req.params.id)
+  const comment = await Comment.findByPk(req.params.id, {
+    include: [{ model: User, as: 'author' }],
+  })
   if (!comment) throw Error('Resource not found')
   res.json(comment)
 })
