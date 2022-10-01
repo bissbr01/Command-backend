@@ -50,7 +50,7 @@ router.get('/:id', async (req, res) => {
       Sprint,
       { model: User, as: 'author' },
       { model: User, as: 'assignee' },
-      { model: Comment, include: 'author' },
+      { model: Comment, include: ['author'], order: [['createdAt', 'DESC']] },
     ],
   })
   if (!issue) throw Error('Resource not found')
@@ -59,7 +59,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const issue = await Issue.create(req.body)
+    const issue = await Issue.create({ ...req.body, authorId: req.auth.id })
 
     return res.json(issue)
   } catch (error) {

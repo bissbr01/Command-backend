@@ -32,7 +32,11 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const comment = await Comment.create(req.body)
+    const comment = await Comment.create({
+      authorId: req.auth.id,
+      issueId: req.body.issueId,
+      text: req.body.text,
+    })
 
     return res.json(comment)
   } catch (error) {

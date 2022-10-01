@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:3001/api/issues
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NDE1OTExMywiZXhwIjoxNjY0MjQ1NTEzfQ.U_Ej_oAkNAR7hlWDvzn6K1SMpPjyv-kFpzZUTnUT46Q
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NDMyOTAwNCwiZXhwIjoxNjY0NDE1NDA0fQ.NVwELLJl2nCpiQAk9Cv-OhZ6_hAtU8Mr0W3yWc-Dy8s
 ###
 
 GET {{baseUrl}}
@@ -23,10 +23,10 @@ Content-Type: application/json
 
 {
   "status": "todo",
-  "title": "As Jacob, I want to see my data visualized so I can make better decisions.",
-  "description": "A test user story",
-  "assigneeId": 1,
-  "authorId": 2,
+  "type": "bug",
+  "title": "OAuth failure",
+  "description": "Google oath not working",
+  "assigneeId": 2,
   "sprintId": 1
 }
 
