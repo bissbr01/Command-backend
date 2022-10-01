@@ -63,13 +63,13 @@ router.delete('/:id', async (req, res) => {
   const comment = await Comment.findByPk(req.params.id)
   if (!comment) throw Error('Resource not found')
 
-  // if (user.id !== issue.userId) {
-  //   throw Error('You do not have permission to perform this action');
-  // }
+  if (req.auth.id !== comment.authorId) {
+    throw Error('You do not have permission to perform this action')
+  }
 
   const result = await comment.destroy()
   if (!result) throw Error('Unable to perform operation')
-  res.status(200).json({ result })
+  res.status(200).json({ success: true, id: comment.id })
 })
 
 module.exports = router

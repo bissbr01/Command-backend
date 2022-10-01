@@ -29,8 +29,8 @@ router.get('/me', async (req, res) => {
     include: [
       Project,
       Sprint,
-      { model: Issue, as: 'authoredIssues' },
-      { model: Issue, as: 'assignedIssues' },
+      // { model: Issue, as: 'authoredIssues' },
+      // { model: Issue, as: 'assignedIssues' },
     ],
   })
   if (!user) throw Error('Resource not found')
