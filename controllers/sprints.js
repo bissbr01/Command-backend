@@ -1,6 +1,7 @@
+const { Op } = require('sequelize')
 const router = require('express').Router()
 
-const { Sprint } = require('../models')
+const { Sprint, Issue } = require('../models')
 
 router.get('/', async (req, res) => {
   const sprints = await Sprint.findAll({
@@ -8,6 +9,19 @@ router.get('/', async (req, res) => {
   })
   if (!sprints) throw Error('Resource not found')
   res.json(sprints)
+})
+
+router.get('/active', async (req, res) => {
+  const sprint = await Sprint.findOne({
+    where: {
+      [Op.and]: [{ authorId: req.auth.id }, { active: true }],
+    },
+    include: [
+      { model: Issue, include: ['author'], order: [['createdAt', 'ASC']] },
+    ],
+  })
+  if (!sprint) throw Error('Resource not found')
+  res.json(sprint)
 })
 
 router.post('/', async (req, res) => {

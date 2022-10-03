@@ -1,10 +1,15 @@
 @baseUrl=http://localhost:3001/api/sprints
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2MzAwNzQ5OCwiZXhwIjoxNjYzMDkzODk4fQ._TJbGKQRlyrQiRZ0l-JKFolMTPpV38eBDa3F-5-FygY
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NDc1Nzk3NCwiZXhwIjoxNjY0ODQ0Mzc0fQ.ZU92kih38fkOp_G6gWjbTPXEd_cgYWJMGswcA9kCf3o
 
 ###
 
 GET {{baseUrl}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+GET {{baseUrl}}/active
 Authorization: Bearer {{token}}
 
 ###
@@ -17,4 +22,14 @@ Content-Type: application/json
   "goal": "Create a minimum usable product.",
   "projectId": 1,
   "authorId": 1
+}
+
+###
+
+PATCH {{baseUrl}}/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "active": true
 }

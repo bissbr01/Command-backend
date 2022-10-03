@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require('sequelize');
-const { sequelize } = require('../util/db');
+const { Model, DataTypes } = require('sequelize')
+const { sequelize } = require('../util/db')
 
 class Sprint extends Model {}
 
@@ -21,6 +21,11 @@ Sprint.init(
     length: {
       type: DataTypes.INTEGER,
       defaultValue: 14,
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
     },
     projectId: {
       type: DataTypes.INTEGER,
@@ -45,6 +50,6 @@ Sprint.init(
     timestamps: true,
     modelName: 'sprint',
   }
-);
+)
 
-module.exports = Sprint;
+module.exports = Sprint
