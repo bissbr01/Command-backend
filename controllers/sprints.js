@@ -5,6 +5,7 @@ const { Sprint, Issue } = require('../models')
 
 router.get('/', async (req, res) => {
   const sprints = await Sprint.findAll({
+    [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
     include: 'author',
   })
   if (!sprints) throw Error('Resource not found')

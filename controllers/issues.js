@@ -25,10 +25,13 @@ router.get('/', async (req, res) => {
 router.get('/me', async (req, res) => {
   const issues = await Issue.findAll({
     where: {
-      [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
+      [Op.and]: [
+        { '$sprint.active$': true },
+        { [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }] },
+      ],
     },
     include: [
-      Sprint,
+      { model: Sprint },
       { model: User, as: 'author' },
       { model: User, as: 'assignee' },
     ],
