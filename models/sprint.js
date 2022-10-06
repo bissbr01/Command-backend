@@ -22,6 +22,15 @@ Sprint.init(
       type: DataTypes.INTEGER,
       defaultValue: 14,
     },
+    end: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        // return end date in milliseconds
+        const end =
+          new Date(this.startOn).getTime() + this.length * 1000 * 60 * 60 * 24
+        return end
+      },
+    },
     active: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
