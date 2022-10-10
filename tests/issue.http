@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:3001/api/issues
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NDg0NTExNiwiZXhwIjoxNjY0OTMxNTE2fQ.X0zedZ7r2CPt4Nw_6HKsHbvUTXtsnRx8iuK5RIAOMhk
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NTM2MzgxMCwiZXhwIjoxNjY1NDUwMjEwfQ.O1HisXokSHzALvx5p-HgAvsvXX_IKjcF6-K8cwmnwtI
 ###
 
 GET {{baseUrl}}
@@ -12,7 +12,7 @@ GET {{baseUrl}}/me
 Authorization: Bearer {{token}}
 
 ###
-GET {{baseUrl}}/2
+GET {{baseUrl}}/21
 Authorization: Bearer {{token}}
 
 ###
@@ -51,6 +51,6 @@ Content-Type: application/json
 
 ###
 
-DELETE {{baseUrl}}/3
+DELETE {{baseUrl}}/21
 Authorization: Bearer {{token}}
 Content-Type: application/json

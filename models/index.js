@@ -10,7 +10,11 @@ Sprint.belongsTo(Project)
 Sprint.hasMany(Issue)
 Issue.belongsTo(Sprint)
 
-Issue.hasMany(Comment)
+// for onDelete cascade to work, hooks must be set to true
+Issue.hasMany(Comment, {
+  onDelete: 'cascade',
+  hooks: true,
+})
 Comment.belongsTo(Issue)
 
 User.hasMany(Comment, { foreignKey: 'authorId' })

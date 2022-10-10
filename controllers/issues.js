@@ -114,6 +114,7 @@ router.delete('/:id', async (req, res) => {
     throw Error('You do not have permission to perform this action')
   }
 
+  // await issue.removeComments()
   const result = await issue.destroy()
   if (!result) throw Error('Unable to perform operation')
   res.status(200).json({ success: true, id: issue.id })
