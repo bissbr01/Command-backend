@@ -37,6 +37,10 @@ Issue.init(
     boardOrder: {
       type: DataTypes.INTEGER,
     },
+    storyPoints: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
     assigneeId: {
       type: DataTypes.INTEGER,
       references: { model: 'users', key: 'id' },
