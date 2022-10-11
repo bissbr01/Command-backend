@@ -28,7 +28,7 @@ router.get('/me', async (req, res) => {
   const user = await User.findByPk(req.auth.id, {
     include: [
       Project,
-      Sprint,
+      // Sprint,
       // { model: Issue, as: 'authoredIssues' },
       // { model: Issue, as: 'assignedIssues' },
     ],
