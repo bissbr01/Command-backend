@@ -16,7 +16,6 @@ router.get('/', async (req, res) => {
     // attributes: { exclude: ['userId'] },
     include: 'author',
     where,
-    // order: [['likes', 'DESC']],
   })
   if (!issues) throw Error('Resource not found')
   res.json(issues)
