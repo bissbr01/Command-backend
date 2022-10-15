@@ -55,7 +55,7 @@ Issue.init(
     },
     sprintId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'sprints',
         key: 'id',

@@ -4,16 +4,32 @@ const router = require('express').Router()
 const { Sprint, Issue } = require('../models')
 
 router.get('/', async (req, res) => {
+  let where = {}
+  if (req.query.search) {
+    where = {
+      [Op.or]: [
+        { goal: { [Op.iLike]: `%${req.query.search}%` } },
+        { '$author.name$': { [Op.iLike]: `%${req.query.search}%` } },
+      ],
+    }
+  }
+  if (req.query.active) {
+    where = {
+      active: true,
+    }
+  }
+
   const sprints = await Sprint.findAll({
     [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
     include: 'author',
+    where,
   })
   if (!sprints) throw Error('Resource not found')
   res.json(sprints)
 })
 
 router.get('/active', async (req, res) => {
-  const sprint = await Sprint.findOne({
+  const sprints = await Sprint.findAll({
     where: {
       [Op.and]: [{ authorId: req.auth.id }, { active: true }],
     },
@@ -21,12 +37,12 @@ router.get('/active', async (req, res) => {
       { model: Issue, include: ['author'], order: [['createdAt', 'ASC']] },
     ],
   })
-  if (!sprint) throw Error('Resource not found')
-  res.json(sprint)
+  if (!sprints) throw Error('Resource not found')
+  res.json(sprints)
 })
 
 router.post('/', async (req, res) => {
-  const sprints = await Sprint.create(req.body)
+  const sprints = await Sprint.create({ ...req.body, authorId: req.auth.id })
   if (!sprints) throw Error('Unable to perform operation')
   res.json(sprints)
 })

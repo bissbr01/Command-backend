@@ -21,6 +21,24 @@ router.get('/', async (req, res) => {
   res.json(issues)
 })
 
+router.get('/backlog', async (req, res) => {
+  const issues = await Issue.findAll({
+    where: {
+      [Op.and]: [
+        { sprintId: { [Op.is]: null } },
+        { [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }] },
+      ],
+    },
+    include: [
+      { model: User, as: 'author' },
+      { model: User, as: 'assignee' },
+    ],
+    order: [['boardOrder', 'ASC']],
+  })
+  if (!issues) throw Error('Resource not found')
+  res.json(issues)
+})
+
 router.get('/me', async (req, res) => {
   const issues = await Issue.findAll({
     where: {
