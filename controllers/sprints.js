@@ -15,26 +15,38 @@ router.get('/', async (req, res) => {
   }
   if (req.query.active) {
     where = {
+      ...where,
       active: true,
     }
   }
 
   const sprints = await Sprint.findAll({
     [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
-    include: 'author',
+    include: [
+      {
+        model: Issue,
+        include: ['author'],
+        order: [['createdAt', 'ASC']],
+      },
+      'author',
+    ],
     where,
   })
   if (!sprints) throw Error('Resource not found')
   res.json(sprints)
 })
 
-router.get('/active', async (req, res) => {
-  const sprints = await Sprint.findAll({
+router.get('/board', async (req, res) => {
+  const sprints = await Sprint.findOne({
     where: {
-      [Op.and]: [{ authorId: req.auth.id }, { active: true }],
+      [Op.and]: [{ authorId: req.auth.id }, { displayOnBoard: true }],
     },
     include: [
-      { model: Issue, include: ['author'], order: [['createdAt', 'ASC']] },
+      {
+        model: Issue,
+        include: ['author'],
+        order: [['createdAt', 'ASC']],
+      },
     ],
   })
   if (!sprints) throw Error('Resource not found')

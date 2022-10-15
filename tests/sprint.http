@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:3001/api/sprints
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NTc5NjkwNCwiZXhwIjoxNjY1ODgzMzA0fQ.2PxVCACcy181n8xY3JXmXUu8v1ramzWds-kHdM2AvjI
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NTg2MTMyNiwiZXhwIjoxNjY1OTQ3NzI2fQ._pS9QPlf85RAEbixLOgzakwX3lp5YIWXQrrdwAE2rWY
 
 ###
 
@@ -9,7 +9,7 @@ Authorization: Bearer {{token}}
 
 ###
 
-GET {{baseUrl}}/active
+GET {{baseUrl}}/board
 Authorization: Bearer {{token}}
 
 ###
@@ -31,5 +31,5 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "sprintId": null
+  "active": true
 }

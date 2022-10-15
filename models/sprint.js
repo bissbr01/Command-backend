@@ -27,6 +27,11 @@ Sprint.init(
       defaultValue: false,
       allowNull: false,
     },
+    displayOnBoard: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
     projectId: {
       type: DataTypes.INTEGER,
       allowNull: false,
