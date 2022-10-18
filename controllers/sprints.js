@@ -37,6 +37,7 @@ router.get('/', async (req, res) => {
       'author',
     ],
     where,
+    order: [['createdAt', 'ASC']],
   })
   if (!sprints) throw Error('Resource not found')
   res.json(sprints)
