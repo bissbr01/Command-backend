@@ -10,8 +10,22 @@ router.get('/', async (req, res) => {
   res.json(projects)
 })
 
+router.get('/:id', async (req, res) => {
+  if (!req.params.id || req.params.id === 'undefined') {
+    throw Error('Your request is improperly formatted')
+  }
+  const project = await Project.findByPk(req.params.id, {
+    where: {
+      authorId: req.auth.id,
+    },
+    include: { model: User, as: 'author' },
+  })
+  if (!project) throw Error('Resource not found')
+  res.json(project)
+})
+
 router.post('/', async (req, res) => {
-  const project = await Project.create(req.body)
+  const project = await Project.create({ ...req.body, authorId: req.auth.id })
   if (!project) throw Error('Unable to perform operation')
   res.json(project)
 })
