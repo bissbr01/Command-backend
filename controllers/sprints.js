@@ -1,7 +1,7 @@
 const { Op } = require('sequelize')
 const router = require('express').Router()
 
-const { Sprint, Issue } = require('../models')
+const { Sprint, Issue, User } = require('../models')
 
 router.get('/', async (req, res) => {
   let where = {}
@@ -51,6 +51,20 @@ router.get('/board', async (req, res) => {
   })
   if (!sprints) throw Error('Resource not found')
   res.json(sprints)
+})
+
+router.get('/:id', async (req, res) => {
+  if (!req.params.id || req.params.id === 'undefined') {
+    throw Error('Your request is improperly formatted')
+  }
+  const sprint = await Sprint.findByPk(req.params.id, {
+    where: {
+      [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
+    },
+    include: [{ model: User, as: 'author' }, { model: Issue }],
+  })
+  if (!sprint) throw Error('Resource not found')
+  res.json(sprint)
 })
 
 router.post('/', async (req, res) => {

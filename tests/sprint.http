@@ -1,10 +1,15 @@
 @baseUrl=http://localhost:3001/api/sprints
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NTg2MTMyNiwiZXhwIjoxNjY1OTQ3NzI2fQ._pS9QPlf85RAEbixLOgzakwX3lp5YIWXQrrdwAE2rWY
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NTk3MDQwNCwiZXhwIjoxNjY2MDU2ODA0fQ.8wsjejp3s-vpppCQ1nwQDTZGjE3BPxO_jzfsfwemUr0
 
 ###
 
 GET {{baseUrl}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+GET {{baseUrl}}/1
 Authorization: Bearer {{token}}
 
 ###
