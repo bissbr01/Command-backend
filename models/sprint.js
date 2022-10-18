@@ -16,11 +16,9 @@ Sprint.init(
     },
     startOn: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
     },
     endOn: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
     },
     active: {
       type: DataTypes.BOOLEAN,

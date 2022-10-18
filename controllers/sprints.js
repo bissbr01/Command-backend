@@ -16,7 +16,13 @@ router.get('/', async (req, res) => {
   if (req.query.active) {
     where = {
       ...where,
-      active: true,
+      active: req.query.active,
+    }
+  }
+  if (req.query.displayOnBoard) {
+    where = {
+      ...where,
+      displayOnBoard: req.query.displayOnBoard,
     }
   }
 
