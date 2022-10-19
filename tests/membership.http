@@ -1,35 +1,20 @@
-@baseUrl=http://localhost:3001/api/teams
+@baseUrl=http://localhost:3001/api/memberships
 
 @token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NjEzOTgxOSwiZXhwIjoxNjY2MjI2MjE5fQ.r2UGstiIiCvFVbp_WhqqrNdx4cX1sd7nKRAnlZslRGg
-
-
 ###
 
-GET {{baseUrl}} HTTP/1.1
+GET {{baseUrl}}
 Authorization: Bearer {{token}}
 
-###
-
-GET {{baseUrl}}/1
-Authorization: Bearer {{token}}
 
 ###
-
 POST {{baseUrl}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "dream team"
+  "userId": "3",
+  "teamId": "1"
 }
 
 ###
-
-PATCH {{baseUrl}}/1
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "id": 1,
-  "userId": 2
-}

@@ -33,8 +33,8 @@ const up = async ({ context: queryInterface }) => {
 }
 
 const down = async ({ context: queryInterface }) => {
-  await queryInterface.dropTable('teams')
   await queryInterface.dropTable('memberships')
+  await queryInterface.dropTable('teams')
 }
 
 module.exports = { up, down }

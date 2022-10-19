@@ -9,9 +9,13 @@ router.get('/', async (req, res) => {
       {
         model: Team,
         attributes: ['name', 'id'],
+        through: {
+          attributes: [],
+        },
       },
     ],
   })
+  if (!users) throw Error('Resource not found')
   res.json(users)
 })
 

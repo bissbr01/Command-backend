@@ -1,6 +1,8 @@
 const { Model, DataTypes } = require('sequelize')
 
 const { sequelize } = require('../util/db')
+const Team = require('./team')
+const User = require('./user')
 
 class Membership extends Model {}
 
@@ -14,12 +16,12 @@ Membership.init(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: 'users', key: 'id' },
+      references: { model: User, key: 'id' },
     },
     teamId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: 'teams', key: 'id' },
+      references: { model: Team, key: 'id' },
     },
   },
   {

@@ -1,10 +1,33 @@
-const bcrypt = require('bcrypt')
+const { Op } = require('sequelize')
 const router = require('express').Router()
-const { User, Project, Team } = require('../models')
+
+const { User, Team } = require('../models')
 
 router.get('/', async (req, res) => {
-  const teams = await Team.findAll({})
+  const teams = await Team.findAll({
+    include: {
+      model: User,
+      attributes: ['id', 'fullName', 'firstName', 'lastName'],
+      through: {
+        attributes: [],
+      },
+    },
+  })
+  if (!teams) throw Error('Resource not found')
   res.json(teams)
+})
+
+router.get('/:id', async (req, res) => {
+  if (!req.params.id || req.params.id === 'undefined') {
+    throw Error('Your request is improperly formatted')
+  }
+  const team = await Team.findByPk(req.params.id, {
+    // where: {
+    //   [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
+    // },
+  })
+  if (!team) throw Error('Resource not found')
+  res.json(team)
 })
 
 // eslint-disable-next-line consistent-return
