@@ -5,12 +5,20 @@ const { User, Team } = require('../models')
 
 router.get('/', async (req, res) => {
   const teams = await Team.findAll({
+    // where: {
+    //   '$users.id$': req.auth.id,
+    // },
     include: {
       model: User,
       attributes: ['id', 'fullName', 'firstName', 'lastName'],
       through: {
-        attributes: [],
+        attributes: ['userId', 'teamId', 'id'],
       },
+      where: {
+        id: req.auth.id,
+      },
+      required: false,
+      right: true,
     },
   })
   if (!teams) throw Error('Resource not found')

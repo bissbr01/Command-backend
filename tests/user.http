@@ -23,9 +23,9 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "firstName": "Brad", 
-  "lastName": "Bissell", 
-  "email": "bb@gmail.com", 
+  "firstName": "Harry", 
+  "lastName": "Franklin", 
+  "email": "hfranklin@gmail.com", 
   "password": "secret"
 }
 
