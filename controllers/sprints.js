@@ -13,6 +13,13 @@ router.get('/', async (req, res) => {
       ],
     }
   }
+
+  if (req.query.projectId) {
+    where = {
+      ...where,
+      projectId: req.query.projectId,
+    }
+  }
   if (req.query.active) {
     where = {
       ...where,
@@ -46,7 +53,9 @@ router.get('/', async (req, res) => {
 router.get('/board', async (req, res) => {
   const sprints = await Sprint.findOne({
     where: {
-      [Op.and]: [{ authorId: req.auth.id }, { displayOnBoard: true }],
+      authorId: req.auth.id,
+      displayOnBoard: true,
+      projectId: req.query.projectId,
     },
     include: [
       {
@@ -75,7 +84,11 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const sprints = await Sprint.create({ ...req.body, authorId: req.auth.id })
+  const sprints = await Sprint.create({
+    ...req.body,
+    authorId: req.auth.id,
+    projectId: req.body.projectId,
+  })
   if (!sprints) throw Error('Unable to perform operation')
   res.json(sprints)
 })

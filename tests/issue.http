@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:3001/api/issues
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NTg2MTMyNiwiZXhwIjoxNjY1OTQ3NzI2fQ._pS9QPlf85RAEbixLOgzakwX3lp5YIWXQrrdwAE2rWY
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NjA5OTc1MSwiZXhwIjoxNjY2MTg2MTUxfQ.-JC-Xe4lPYaCmWQae5n_YuROfPTPzwNs4_wEAHZoo8s
 ###
 
 GET {{baseUrl}}

@@ -1,0 +1,34 @@
+@baseUrl=http://localhost:3001/api/teams
+
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJiQGdtYWlsLmNvbSIsImlkIjoxLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTY2NjA5OTc1MSwiZXhwIjoxNjY2MTg2MTUxfQ.-JC-Xe4lPYaCmWQae5n_YuROfPTPzwNs4_wEAHZoo8s
+
+###
+
+GET {{baseUrl}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+GET {{baseUrl}}/1
+Authorization: Bearer {{token}}
+
+###
+
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "dreamTeam"
+}
+
+###
+
+PATCH {{baseUrl}}/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "userId": 2
+}
