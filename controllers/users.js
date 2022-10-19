@@ -46,7 +46,7 @@ router.get('/me', async (req, res) => {
         },
         include: {
           model: User,
-          attributes: ['firstName', 'lastName', 'email'],
+          attributes: ['firstName', 'lastName', 'fullName', 'email'],
           through: {
             attributes: [],
           },
