@@ -39,7 +39,7 @@ Sprint.init(
       },
     },
     authorId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'users',

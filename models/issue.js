@@ -42,11 +42,11 @@ Issue.init(
       defaultValue: 0,
     },
     assigneeId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       references: { model: 'users', key: 'id' },
     },
     authorId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'users',

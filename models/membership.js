@@ -14,7 +14,7 @@ Membership.init(
       autoIncrement: true,
     },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: { model: User, key: 'id' },
     },

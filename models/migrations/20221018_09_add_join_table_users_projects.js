@@ -3,9 +3,8 @@ const { DataTypes } = require('sequelize')
 const up = async ({ context: queryInterface }) => {
   await queryInterface.createTable('teams', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       primaryKey: true,
-      autoIncrement: true,
     },
     name: {
       type: DataTypes.TEXT,
@@ -20,7 +19,7 @@ const up = async ({ context: queryInterface }) => {
       autoIncrement: true,
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: { model: 'users', key: 'id' },
     },

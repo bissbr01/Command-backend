@@ -3,9 +3,8 @@ const { DataTypes } = require('sequelize')
 const up = async ({ context: queryInterface }) => {
   await queryInterface.createTable('users', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       primaryKey: true,
-      autoIncrement: true,
     },
     first_name: {
       type: DataTypes.STRING,
@@ -56,7 +55,7 @@ const up = async ({ context: queryInterface }) => {
       unique: true,
     },
     author_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'users',
@@ -91,7 +90,7 @@ const up = async ({ context: queryInterface }) => {
       defaultValue: 14,
     },
     author_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'users',
@@ -141,11 +140,11 @@ const up = async ({ context: queryInterface }) => {
       defaultValue: 'user-story',
     },
     assignee_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       references: { model: 'users', key: 'id' },
     },
     author_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'users',
@@ -180,7 +179,7 @@ const up = async ({ context: queryInterface }) => {
       allowNull: false,
     },
     author_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'users',

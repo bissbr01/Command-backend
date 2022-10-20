@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require('sequelize');
-const { sequelize } = require('../util/db');
+const { Model, DataTypes } = require('sequelize')
+const { sequelize } = require('../util/db')
 
 class Project extends Model {}
 
@@ -16,7 +16,7 @@ Project.init(
       unique: true,
     },
     authorId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'users',
@@ -30,6 +30,6 @@ Project.init(
     timestamps: true,
     modelName: 'project',
   }
-);
+)
 
-module.exports = Project;
+module.exports = Project

@@ -6,9 +6,8 @@ class Team extends Model {}
 Team.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       primaryKey: true,
-      autoIncrement: true,
     },
     name: {
       type: DataTypes.TEXT,

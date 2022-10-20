@@ -32,11 +32,11 @@ router.post('/', async (req, res) => {
     const { nickname, name, picture, email, email_verified, sub } = decodedToken
     const [user, created] = await User.findOrCreate({
       where: {
+        id: sub,
         nickname,
         name,
         picture,
         email,
-        sub,
         emailVerified: email_verified,
       },
     })
@@ -52,11 +52,7 @@ router.post('/', async (req, res) => {
 
 router.get('/me', async (req, res) => {
   try {
-    console.log('req auth: ', req.auth)
-    const user = await User.findOne({
-      where: {
-        sub: req.auth.sub,
-      },
+    const user = await User.findByPk(req.auth.sub, {
       include: [
         Project,
         {

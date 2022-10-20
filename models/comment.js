@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require('sequelize');
-const { sequelize } = require('../util/db');
+const { Model, DataTypes } = require('sequelize')
+const { sequelize } = require('../util/db')
 
 class Comment extends Model {}
 
@@ -15,7 +15,7 @@ Comment.init(
       allowNull: false,
     },
     authorId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'users',
@@ -37,6 +37,6 @@ Comment.init(
     timestamps: true,
     modelName: 'comment',
   }
-);
+)
 
-module.exports = Comment;
+module.exports = Comment
