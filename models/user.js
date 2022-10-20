@@ -10,22 +10,14 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    firstName: {
+    sid: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    name: {
+      type: DataTypes.TEXT,
     },
-    fullName: {
-      type: DataTypes.VIRTUAL,
-      get() {
-        return `${this.firstName} ${this.lastName}`
-      },
-      set(value) {
-        throw Error('Do not try to set the `fullName` value!')
-      },
+    nickname: {
+      type: DataTypes.TEXT,
     },
     email: {
       type: DataTypes.STRING,
@@ -35,9 +27,12 @@ User.init(
         isEmail: true,
       },
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    emailVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    picture: {
+      type: DataTypes.TEXT,
     },
     admin: {
       type: DataTypes.BOOLEAN,
@@ -53,9 +48,9 @@ User.init(
     underscored: true,
     timestamps: true,
     modelName: 'user',
-    defaultScope: {
-      attributes: { exclude: ['password'] },
-    },
+    // defaultScope: {
+    //   attributes: { exclude: ['password'] },
+    // },
   }
 )
 

@@ -21,7 +21,8 @@ app.use(cors())
 app.use(express.json())
 
 // require auth token to access all resources except those excluded in config
-app.use(jwtVerify)
+// app.use(jwtVerify)
+app.use(auth0CheckJwt)
 
 app.use('/api/users', usersRouter)
 app.use('/api/projects', projectsRouter)
@@ -34,7 +35,7 @@ app.use('/api/login', loginRouter)
 
 app.use(errorHandler)
 
-app.get('/api/auth0', auth0CheckJwt, (req, res) => {
+app.get('/api/auth0', (req, res) => {
   res.send({ auth: req.auth })
 })
 

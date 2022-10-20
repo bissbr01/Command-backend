@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const router = require('express').Router()
 const { User, Project, Sprint, Issue, Team } = require('../models')
+const jwt = require('jsonwebtoken')
+const fs = require('fs')
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
@@ -19,17 +21,32 @@ router.get('/', async (req, res) => {
   res.json(users)
 })
 
-// eslint-disable-next-line consistent-return
 router.post('/', async (req, res) => {
-  // if (!req.oidc.isAuthenticated()) {
-  //   throw Error('You must be authenticated to perform this action.');
-  // }
   try {
-    const saltRounds = 8
-    const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
-    const user = await User.create({ ...req.body, password: passwordHash })
-    res.json(user)
+    // use id_token from req.body to get user info from auth0
+    const cert = fs.readFileSync('dev-w8p6njku.pem')
+    const decodedToken = jwt.verify(req.body.idToken, cert)
+    console.log('decoded token: ', decodedToken)
+
+    // find or add to db
+    const { nickname, name, picture, email, email_verified, sid } = decodedToken
+    const [user, created] = await User.findOrCreate({
+      where: {
+        nickname,
+        name,
+        picture,
+        email,
+        sid,
+        emailVerified: email_verified,
+      },
+    })
+    if (!user) throw Error('Your request is improperly formatted')
+    res.json({ user, created })
   } catch (error) {
+    console.log('err.name', error.name)
+    console.log('err.message', error.message)
+    console.log('err.errors', error.errors)
+    err.errors.map((e) => console.log(e.message)) // The name must contain between 2 and 100 characters.
     return res.status(400).json({ error: error.message })
   }
 })
