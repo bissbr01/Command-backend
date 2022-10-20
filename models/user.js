@@ -10,7 +10,7 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    sid: {
+    sub: {
       type: DataTypes.STRING,
     },
     name: {

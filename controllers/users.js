@@ -25,18 +25,18 @@ router.post('/', async (req, res) => {
   try {
     // use id_token from req.body to get user info from auth0
     const cert = fs.readFileSync('dev-w8p6njku.pem')
-    const decodedToken = jwt.verify(req.body.idToken, cert)
-    console.log('decoded token: ', decodedToken)
+    const decodedToken = jwt.verify(req.body.token, cert)
 
+    console.log(decodedToken)
     // find or add to db
-    const { nickname, name, picture, email, email_verified, sid } = decodedToken
+    const { nickname, name, picture, email, email_verified, sub } = decodedToken
     const [user, created] = await User.findOrCreate({
       where: {
         nickname,
         name,
         picture,
         email,
-        sid,
+        sub,
         emailVerified: email_verified,
       },
     })
@@ -46,13 +46,16 @@ router.post('/', async (req, res) => {
     console.log('err.name', error.name)
     console.log('err.message', error.message)
     console.log('err.errors', error.errors)
-    err.errors.map((e) => console.log(e.message)) // The name must contain between 2 and 100 characters.
     return res.status(400).json({ error: error.message })
   }
 })
 
 router.get('/me', async (req, res) => {
-  const user = await User.findByPk(req.auth.id, {
+  console.log('req auth: ', req.auth)
+  const user = await User.findOne({
+    where: {
+      sub: req.auth.sub,
+    },
     include: [
       Project,
       {

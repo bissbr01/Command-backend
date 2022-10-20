@@ -58,7 +58,6 @@ router.patch('/:id', async (req, res) => {
   try {
     const comment = await Comment.findByPk(req.params.id)
     if (!comment) throw Error('Resource not found')
-    console.log('req.body: ', req.body)
 
     const attributes = Object.keys(req.body)
     attributes.forEach((attr) => (comment[attr] = req.body[attr]))

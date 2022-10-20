@@ -3,9 +3,9 @@ const { DataTypes } = require('sequelize')
 const up = async ({ context: queryInterface }) => {
   await queryInterface.sequelize.transaction(async (t) => {
     await Promise.all([
-      // queryInterface.removeColumn('users', 'first_name', { transation: t }),
-      // queryInterface.removeColumn('users', 'last_name', { transation: t }),
-      // queryInterface.removeColumn('users', 'password', { transation: t }),
+      queryInterface.removeColumn('users', 'first_name', { transation: t }),
+      queryInterface.removeColumn('users', 'last_name', { transation: t }),
+      queryInterface.removeColumn('users', 'password', { transation: t }),
       queryInterface.addColumn(
         'users',
         'name',
@@ -73,10 +73,10 @@ const down = async ({ context: queryInterface }) => {
         },
         { transaction: t }
       ),
-      // queryInterface.removeColumn('users', 'email_verified', { transation: t }),
-      // queryInterface.removeColumn('users', 'picture', { transation: t }),
-      // queryInterface.removeColumn('users', 'name', { transation: t }),
-      // queryInterface.removeColumn('users', 'nickname', { transation: t }),
+      queryInterface.removeColumn('users', 'email_verified', { transation: t }),
+      queryInterface.removeColumn('users', 'picture', { transation: t }),
+      queryInterface.removeColumn('users', 'name', { transation: t }),
+      queryInterface.removeColumn('users', 'nickname', { transation: t }),
     ])
   })
 }

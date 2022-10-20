@@ -93,7 +93,6 @@ router.patch('/me', async (req, res) => {
     throw Error('Your request is improperly formatted')
   }
   const { issues: reqIssues } = req.body
-  console.log('req Issues: ', reqIssues)
   let result = []
   try {
     reqIssues.forEach(async (reqIssue) => {

@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize')
 
 const up = async ({ context: queryInterface }) => {
   await queryInterface.createTable('users', {
@@ -43,7 +43,7 @@ const up = async ({ context: queryInterface }) => {
       allowNull: false,
       type: DataTypes.DATE,
     },
-  });
+  })
   await queryInterface.createTable('projects', {
     id: {
       type: DataTypes.INTEGER,
@@ -71,7 +71,7 @@ const up = async ({ context: queryInterface }) => {
       allowNull: false,
       type: DataTypes.DATE,
     },
-  });
+  })
   await queryInterface.createTable('sprints', {
     id: {
       type: DataTypes.INTEGER,
@@ -114,7 +114,7 @@ const up = async ({ context: queryInterface }) => {
       allowNull: false,
       type: DataTypes.DATE,
     },
-  });
+  })
 
   await queryInterface.createTable('issues', {
     id: {
@@ -168,7 +168,7 @@ const up = async ({ context: queryInterface }) => {
       allowNull: false,
       type: DataTypes.DATE,
     },
-  });
+  })
   await queryInterface.createTable('comments', {
     id: {
       type: DataTypes.INTEGER,
@@ -203,15 +203,15 @@ const up = async ({ context: queryInterface }) => {
       allowNull: false,
       type: DataTypes.DATE,
     },
-  });
-};
+  })
+}
 
 const down = async ({ context: queryInterface }) => {
-  await queryInterface.dropTable('issues');
-  await queryInterface.dropTable('comments');
-  await queryInterface.dropTable('projects');
-  await queryInterface.dropTable('sprints');
-  await queryInterface.dropTable('users');
-};
+  await queryInterface.dropTable('issues')
+  await queryInterface.dropTable('comments')
+  await queryInterface.dropTable('projects')
+  await queryInterface.dropTable('sprints')
+  await queryInterface.dropTable('users')
+}
 
-module.exports = { up, down };
+module.exports = { up, down }
