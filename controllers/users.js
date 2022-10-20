@@ -51,33 +51,40 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/me', async (req, res) => {
-  console.log('req auth: ', req.auth)
-  const user = await User.findOne({
-    where: {
-      sub: req.auth.sub,
-    },
-    include: [
-      Project,
-      {
-        model: Team,
-        attributes: ['name', 'id'],
-        through: {
-          attributes: [],
-        },
-        include: {
-          model: User,
-          attributes: ['firstName', 'lastName', 'fullName', 'email'],
+  try {
+    console.log('req auth: ', req.auth)
+    const user = await User.findOne({
+      where: {
+        sub: req.auth.sub,
+      },
+      include: [
+        Project,
+        {
+          model: Team,
+          attributes: ['name', 'id'],
           through: {
             attributes: [],
           },
+          include: {
+            model: User,
+            attributes: ['name', 'email'],
+            through: {
+              attributes: [],
+            },
+          },
         },
-      },
-      // { model: Issue, as: 'authoredIssues' },
-      // { model: Issue, as: 'assignedIssues' },
-    ],
-  })
-  if (!user) throw Error('Resource not found')
-  res.json(user)
+        // { model: Issue, as: 'authoredIssues' },
+        // { model: Issue, as: 'assignedIssues' },
+      ],
+    })
+    if (!user) throw Error('Resource not found')
+    res.json(user)
+  } catch (error) {
+    console.log('err.name', error.name)
+    console.log('err.message', error.message)
+    console.log('err.errors', error.errors)
+    return res.status(400).json({ error: error.message })
+  }
 })
 
 router.patch('/:id', async (req, res) => {

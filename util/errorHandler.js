@@ -29,6 +29,9 @@ const errorHandler = (err, req, res, next) => {
   if (err.message === 'Resource not found') {
     res.status(404).end()
   }
+  if (err.message === 'Could not find current user by sub') {
+    res.status(404).end()
+  }
   next(err)
 }
 

@@ -25,6 +25,9 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+  console.log('sub: ', req.auth.sub)
+  console.log(req.auth.user)
+  console.log('id: ', req.auth.id)
   const project = await Project.create({ ...req.body, authorId: req.auth.id })
   if (!project) throw Error('Unable to perform operation')
   res.json(project)
