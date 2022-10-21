@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const { Project } = require('../models')
+const { Project, Sprint } = require('../models')
 
 router.get('/', async (req, res) => {
   const projects = await Project.findAll({
@@ -25,12 +25,32 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  console.log('sub: ', req.auth.sub)
-  console.log(req.auth.user)
-  console.log('id: ', req.auth.id)
-  const project = await Project.create({ ...req.body, authorId: req.auth.id })
-  if (!project) throw Error('Unable to perform operation')
-  res.json(project)
+  try {
+    const project = await Project.create(
+      {
+        ...req.body,
+        authorId: req.auth.id,
+        sprints: [
+          {
+            active: true,
+            displayOnBoard: true,
+            authorId: req.auth.id,
+            goal: '',
+          },
+        ],
+      },
+      {
+        include: Sprint,
+      }
+    )
+    if (!project) throw Error('Unable to perform operation')
+    res.json(project)
+  } catch (error) {
+    console.log('err.name', error.name)
+    console.log('err.message', error.message)
+    console.log('err.errors', error.errors)
+    res.json(error)
+  }
 })
 
 router.patch('/:id', async (req, res) => {

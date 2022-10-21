@@ -14,7 +14,7 @@ const teamsRouter = require('./controllers/teams')
 const membershipsRouter = require('./controllers/memberships')
 const loginRouter = require('./controllers/login')
 const errorHandler = require('./util/errorHandler')
-const getCurrentUser = require('./util/getCurrentUser')
+const setAuthId = require('./util/setAuthId')
 
 const app = express()
 
@@ -22,9 +22,8 @@ app.use(cors())
 app.use(express.json())
 
 // require auth token to access all resources except those excluded in config
-// app.use(jwtVerify)
 app.use(auth0CheckJwt)
-app.use(getCurrentUser)
+app.use(setAuthId)
 
 app.use('/api/users', usersRouter)
 app.use('/api/projects', projectsRouter)

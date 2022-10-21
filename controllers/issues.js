@@ -22,21 +22,29 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/backlog', async (req, res) => {
-  const issues = await Issue.findAll({
-    where: {
-      [Op.and]: [
-        { sprintId: { [Op.is]: null } },
-        { [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }] },
+  try {
+    const issues = await Issue.findAll({
+      where: {
+        [Op.and]: [
+          { sprintId: { [Op.is]: null } },
+          { '$sprint.projectId$': req.query.projectId },
+          // { [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }] },
+        ],
+      },
+      include: [
+        { model: User, as: 'author' },
+        { model: User, as: 'assignee' },
       ],
-    },
-    include: [
-      { model: User, as: 'author' },
-      { model: User, as: 'assignee' },
-    ],
-    order: [['boardOrder', 'ASC']],
-  })
-  if (!issues) throw Error('Resource not found')
-  res.json(issues)
+      order: [['boardOrder', 'ASC']],
+    })
+    if (!issues) throw Error('Resource not found')
+    res.json(issues)
+  } catch (error) {
+    console.log('err.name', error.name)
+    console.log('err.message', error.message)
+    console.log('err.errors', error.errors)
+    res.status(400).send({ error })
+  }
 })
 
 router.get('/me', async (req, res) => {

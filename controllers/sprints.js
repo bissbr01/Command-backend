@@ -51,6 +51,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/board', async (req, res) => {
+  console.log('body: ', req.body)
   const sprints = await Sprint.findOne({
     where: {
       authorId: req.auth.id,

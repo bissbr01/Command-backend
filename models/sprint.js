@@ -12,6 +12,7 @@ Sprint.init(
     },
     goal: {
       type: DataTypes.STRING,
+      defaultValue: '',
       allowNull: false,
     },
     startOn: {
