@@ -14,7 +14,7 @@ Project.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    authorId: {
+    leadId: {
       type: DataTypes.STRING,
       allowNull: false,
       references: {

@@ -36,8 +36,8 @@ Issue.belongsTo(User, { as: 'assignee' })
 User.hasMany(Sprint, { foreignKey: 'authorId' })
 Sprint.belongsTo(User, { as: 'author' })
 
-User.hasMany(Project, { foreignKey: 'authorId' })
-Project.belongsTo(User, { as: 'author' })
+User.hasMany(Project, { foreignKey: 'leadId' })
+Project.belongsTo(User, { as: 'lead' })
 
 Team.hasMany(Project)
 Project.belongsTo(Team)
