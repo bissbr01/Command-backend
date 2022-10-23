@@ -31,6 +31,11 @@ Sprint.init(
       defaultValue: false,
       allowNull: false,
     },
+    isBacklog: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
     projectId: {
       type: DataTypes.INTEGER,
       allowNull: false,

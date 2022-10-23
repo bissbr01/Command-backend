@@ -1,10 +1,10 @@
 const router = require('express').Router()
 
-const { Project, Sprint } = require('../models')
+const { Project, Sprint, Team } = require('../models')
 
 router.get('/', async (req, res) => {
   const projects = await Project.findAll({
-    include: 'author',
+    include: ['author', 'team'],
   })
   if (!projects) throw Error('Resource not found')
   res.json(projects)
@@ -41,6 +41,7 @@ router.post('/', async (req, res) => {
       },
       {
         include: Sprint,
+        include: Team,
       }
     )
     if (!project) throw Error('Unable to perform operation')

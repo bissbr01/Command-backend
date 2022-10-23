@@ -32,6 +32,12 @@ router.get('/', async (req, res) => {
       displayOnBoard: req.query.displayOnBoard,
     }
   }
+  if (req.query.isBacklog) {
+    where = {
+      ...where,
+      isBacklog: req.query.isBacklog,
+    }
+  }
 
   const sprints = await Sprint.findAll({
     [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
@@ -70,13 +76,26 @@ router.get('/board', async (req, res) => {
   res.json(sprints)
 })
 
+router.get('/backlog', async (req, res) => {
+  const [sprint, created] = await Sprint.findOrCreate({
+    where: {
+      projectId: req.query.projectId,
+      isBacklog: true,
+      authorId: req.auth.id,
+    },
+    include: [{ model: User, as: 'author' }, { model: Issue }],
+  })
+  if (!sprint) throw Error('Resource not found')
+  res.json(sprint)
+})
+
 router.get('/:id', async (req, res) => {
   if (!req.params.id || req.params.id === 'undefined') {
     throw Error('Your request is improperly formatted')
   }
   const sprint = await Sprint.findByPk(req.params.id, {
     where: {
-      [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
+      authorId: req.auth.id,
     },
     include: [{ model: User, as: 'author' }, { model: Issue }],
   })

@@ -6,10 +6,16 @@ const Project = require('./project')
 const Team = require('./team')
 const Membership = require('./membership')
 
-Project.hasMany(Sprint)
+Project.hasMany(Sprint, {
+  onDelete: 'cascade',
+  hooks: true,
+})
 Sprint.belongsTo(Project)
 
-Sprint.hasMany(Issue)
+Sprint.hasMany(Issue, {
+  onDelete: 'cascade',
+  hooks: true,
+})
 Issue.belongsTo(Sprint)
 
 // for onDelete cascade to work, hooks must be set to true
@@ -32,6 +38,9 @@ Sprint.belongsTo(User, { as: 'author' })
 
 User.hasMany(Project, { foreignKey: 'authorId' })
 Project.belongsTo(User, { as: 'author' })
+
+Team.hasMany(Project)
+Project.belongsTo(Team)
 
 User.belongsToMany(Team, { through: Membership })
 Team.belongsToMany(User, { through: Membership })

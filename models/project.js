@@ -13,13 +13,20 @@ Project.init(
     title: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     authorId: {
       type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'users',
+        key: 'id',
+      },
+    },
+    teamId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'teams',
         key: 'id',
       },
     },
