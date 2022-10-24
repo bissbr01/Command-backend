@@ -56,7 +56,7 @@ router.post('/', async (req, res) => {
     projectSprints.forEach(async (sprint, index) => {
       sprint.isBacklog
         ? (sprint.name = 'Backlog')
-        : sprint.setNameField(project.title, index - 1)
+        : sprint.setNameField(project.title, index)
       await sprint.save()
     })
 
