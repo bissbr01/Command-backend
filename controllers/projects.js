@@ -4,7 +4,7 @@ const { Project, Sprint, Team } = require('../models')
 
 router.get('/', async (req, res) => {
   const projects = await Project.findAll({
-    include: ['author', 'team'],
+    include: ['lead', 'team'],
   })
   if (!projects) throw Error('Resource not found')
   res.json(projects)
@@ -15,10 +15,10 @@ router.get('/:id', async (req, res) => {
     throw Error('Your request is improperly formatted')
   }
   const project = await Project.findByPk(req.params.id, {
-    where: {
-      authorId: req.auth.id,
-    },
-    include: { model: User, as: 'author' },
+    // where: {
+    //   authorId: req.auth.id,
+    // },
+    include: { model: User, as: 'lead' },
   })
   if (!project) throw Error('Resource not found')
   res.json(project)
@@ -29,7 +29,6 @@ router.post('/', async (req, res) => {
     const project = await Project.create(
       {
         ...req.body,
-        authorId: req.auth.id,
         sprints: [
           {
             active: true,
