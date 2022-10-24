@@ -40,7 +40,6 @@ router.get('/', async (req, res) => {
   }
 
   const sprints = await Sprint.findAll({
-    [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
     include: [
       {
         model: Issue,
@@ -124,7 +123,7 @@ router.post('/', async (req, res) => {
     raw: true,
   })
 
-  sprint.setNameField(project.title, project.sprintCount)
+  sprint.setNameField(project.title, Number(project.sprintCount) - 1)
   await sprint.save()
 
   if (!sprint) throw Error('Unable to perform operation')

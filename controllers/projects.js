@@ -1,9 +1,36 @@
 const router = require('express').Router()
 
-const { Project, Sprint, Team } = require('../models')
+const { Op } = require('sequelize')
+const { Project, Sprint, Team, User } = require('../models')
 
 router.get('/', async (req, res) => {
+  const me = await User.findByPk(req.auth.id, {
+    include: [
+      {
+        model: Team,
+        attributes: ['name', 'id'],
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  })
+  if (!me) throw Error('Your request is improperly format')
+
+  const myTeamIds = me.teams.map((team) => team.id)
+  console.log('myteamids: ', myTeamIds)
+
   const projects = await Project.findAll({
+    where: {
+      [Op.or]: [
+        { leadId: req.auth.id },
+        {
+          teamId: {
+            [Op.or]: myTeamIds,
+          },
+        },
+      ],
+    },
     include: ['lead', 'team'],
   })
   if (!projects) throw Error('Resource not found')
