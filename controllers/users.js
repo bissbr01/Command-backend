@@ -27,7 +27,6 @@ router.post('/', async (req, res) => {
     const cert = fs.readFileSync('dev-w8p6njku.pem')
     const decodedToken = jwt.verify(req.body.token, cert)
 
-    console.log(decodedToken)
     // find or add to db
     const { nickname, name, picture, email, email_verified, sub } = decodedToken
     const [user, created] = await User.findOrCreate({

@@ -32,6 +32,12 @@ router.post('/', async (req, res) => {
         sprints: [
           {
             active: true,
+            isBacklog: true,
+            authorId: req.auth.id,
+            goal: '',
+          },
+          {
+            active: true,
             displayOnBoard: true,
             authorId: req.auth.id,
             goal: '',
@@ -39,12 +45,11 @@ router.post('/', async (req, res) => {
         ],
       },
       {
-        include: Sprint,
-        include: Team,
+        include: [Sprint, Team],
       }
     )
     if (!project) throw Error('Unable to perform operation')
-    res.json(project)
+    res.json(project.toJSON())
   } catch (error) {
     console.log('err.name', error.name)
     console.log('err.message', error.message)

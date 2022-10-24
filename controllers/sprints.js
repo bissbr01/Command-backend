@@ -50,14 +50,13 @@ router.get('/', async (req, res) => {
       'author',
     ],
     where,
-    order: [['createdAt', 'ASC']],
+    order: [['id', 'DESC']],
   })
   if (!sprints) throw Error('Resource not found')
   res.json(sprints)
 })
 
 router.get('/board', async (req, res) => {
-  console.log('body: ', req.body)
   const sprints = await Sprint.findOne({
     where: {
       authorId: req.auth.id,
