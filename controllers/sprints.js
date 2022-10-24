@@ -1,7 +1,7 @@
-const { Op } = require('sequelize')
+const { Op, fn, col } = require('sequelize')
 const router = require('express').Router()
 
-const { Sprint, Issue, User } = require('../models')
+const { Sprint, Issue, User, Project } = require('../models')
 
 router.get('/', async (req, res) => {
   let where = {}
@@ -103,13 +103,32 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const sprints = await Sprint.create({
+  const sprint = await Sprint.create({
     ...req.body,
     authorId: req.auth.id,
     projectId: req.body.projectId,
   })
-  if (!sprints) throw Error('Unable to perform operation')
-  res.json(sprints)
+
+  // set issue name field by getting Sprint Issue count and name:
+  const project = await Project.findByPk(req.projectId, {
+    attributes: {
+      include: ['title', [fn('COUNT', col('sprints.id')), 'sprintCount']],
+    },
+    include: [
+      {
+        model: Sprint,
+        attributes: [],
+      },
+    ],
+    group: ['project.id'],
+    raw: true,
+  })
+
+  sprint.setNameField(project.title, project.sprintCount)
+  await sprint.save()
+
+  if (!sprint) throw Error('Unable to perform operation')
+  res.json(sprint)
 })
 
 router.patch('/:id', async (req, res) => {

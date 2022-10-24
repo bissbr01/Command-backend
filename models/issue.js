@@ -1,13 +1,28 @@
 const { Model, DataTypes } = require('sequelize')
 const { sequelize } = require('../util/db')
 
-class Issue extends Model {}
+class Issue extends Model {
+  setNameField(projectTitle, issueCount) {
+    const words = projectTitle.split(' ')
+    const projectAbbr = words
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase()
+
+    console.log('issuecount: ', issueCount)
+
+    this.setDataValue('name', `${projectAbbr}-${issueCount}`)
+  }
+}
 Issue.init(
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING,
     },
     status: {
       type: DataTypes.STRING,

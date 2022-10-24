@@ -1,7 +1,17 @@
 const { Model, DataTypes } = require('sequelize')
 const { sequelize } = require('../util/db')
 
-class Sprint extends Model {}
+class Sprint extends Model {
+  setNameField(projectTitle, projectSprintsCount) {
+    const words = projectTitle.split(' ')
+    const firstLetters = words
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase()
+
+    this.setDataValue('name', `${firstLetters} Sprint ${projectSprintsCount}`)
+  }
+}
 
 Sprint.init(
   {
@@ -9,6 +19,18 @@ Sprint.init(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      // set(projectTitle, projectSprintsCount) {
+      //   const words = projectTitle.split(' ')
+      //   const firstLetters = words.map((word) => word[0]).join('')
+
+      //   this.setDataValue(
+      //     'name',
+      //     `${firstLetters} Sprint ${projectSprintsCount + 1}`
+      //   )
+      // },
     },
     goal: {
       type: DataTypes.STRING,

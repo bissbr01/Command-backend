@@ -1,5 +1,5 @@
-const { Op } = require('sequelize')
-const { Issue, User, Sprint, Comment } = require('../models')
+const { Op, fn, col } = require('sequelize')
+const { Issue, User, Sprint, Comment, Project } = require('../models')
 const router = require('express').Router()
 
 router.get('/', async (req, res) => {
@@ -89,9 +89,39 @@ router.post('/', async (req, res) => {
   try {
     const issue = await Issue.create({ ...req.body, authorId: req.auth.id })
 
-    return res.json(issue)
+    // set issue name field by getting Sprint Issue count and name:
+    const project = await Project.findByPk(req.body.projectId, {
+      attributes: {
+        include: [
+          'title',
+          [fn('COUNT', col('sprints.issues.id')), 'issueCount'],
+        ],
+      },
+      include: [
+        {
+          model: Sprint,
+          attributes: [],
+          include: {
+            model: Issue,
+            attributes: [],
+          },
+        },
+      ],
+      group: ['project.id'],
+      raw: true,
+    })
+
+    console.log('project issue count in controller: ', project.issueCount)
+
+    issue.setNameField(project.title, project.issueCount)
+    await issue.save()
+
+    return res.json(project)
   } catch (error) {
-    return res.status(400).json({ error })
+    console.log('err.name', error.name)
+    console.log('err.message', error.message)
+    console.log('err.errors', error.errors)
+    return res.status(400).json({ error: error.message })
   }
 })
 

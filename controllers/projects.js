@@ -48,6 +48,18 @@ router.post('/', async (req, res) => {
         include: [Sprint, Team],
       }
     )
+
+    // manually set each sprint name field
+    const projectSprints = await Sprint.findAll({
+      where: { projectId: project.id },
+    })
+    projectSprints.forEach(async (sprint, index) => {
+      sprint.isBacklog
+        ? (sprint.name = 'Backlog')
+        : sprint.setNameField(project.title, index - 1)
+      await sprint.save()
+    })
+
     if (!project) throw Error('Unable to perform operation')
     res.json(project.toJSON())
   } catch (error) {
