@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
   })
 
   // set issue name field by getting Sprint Issue count and name:
-  const project = await Project.findByPk(req.projectId, {
+  const project = await Project.findByPk(req.body.projectId, {
     attributes: {
       include: ['title', [fn('COUNT', col('sprints.id')), 'sprintCount']],
     },
