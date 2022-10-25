@@ -21,34 +21,6 @@ router.get('/', async (req, res) => {
   res.json(users)
 })
 
-router.post('/', async (req, res) => {
-  try {
-    // use id_token from req.body to get user info from auth0
-    const cert = fs.readFileSync('dev-w8p6njku.pem')
-    const decodedToken = jwt.verify(req.body.token, cert)
-
-    // find or add to db
-    const { nickname, name, picture, email, email_verified, sub } = decodedToken
-    const [user, created] = await User.findOrCreate({
-      where: {
-        id: sub,
-        nickname,
-        name,
-        picture,
-        email,
-        emailVerified: email_verified,
-      },
-    })
-    if (!user) throw Error('Your request is improperly formatted')
-    res.json({ user, created })
-  } catch (error) {
-    console.log('err.name', error.name)
-    console.log('err.message', error.message)
-    console.log('err.errors', error.errors)
-    return res.status(400).json({ error: error.message })
-  }
-})
-
 router.get('/me', async (req, res) => {
   try {
     const user = await User.findByPk(req.auth.sub, {
@@ -88,6 +60,51 @@ router.get('/me', async (req, res) => {
     })
     if (!user) throw Error('Resource not found')
     res.json(user)
+  } catch (error) {
+    console.log('err.name', error.name)
+    console.log('err.message', error.message)
+    console.log('err.errors', error.errors)
+    return res.status(400).json({ error: error.message })
+  }
+})
+
+router.post('/', async (req, res) => {
+  try {
+    // use id_token from req.body to get user info from auth0
+    const cert = fs.readFileSync('dev-w8p6njku.pem')
+    const decodedToken = jwt.verify(req.body.token, cert)
+
+    // find or add to db
+    const { nickname, name, picture, email, email_verified, sub } = decodedToken
+    const [user, created] = await User.findOrCreate({
+      where: {
+        id: sub,
+        nickname,
+        name,
+        picture,
+        email,
+        emailVerified: email_verified,
+      },
+    })
+    if (!user) throw Error('Your request is improperly formatted')
+    res.json({ user, created })
+  } catch (error) {
+    console.log('err.name', error.name)
+    console.log('err.message', error.message)
+    console.log('err.errors', error.errors)
+    return res.status(400).json({ error: error.message })
+  }
+})
+
+router.post('/me/colleagues', async (req, res) => {
+  try {
+    const user = await User.findByPk(req.auth.id)
+    if (!user) throw Error('Your request is improperly formatted')
+    const friend = await User.findOne({ where: { email: req.body.email } })
+    if (!friend) throw Error('Your request is improperly formatted')
+    const result = await user.addFriend(friend)
+
+    res.json({ result })
   } catch (error) {
     console.log('err.name', error.name)
     console.log('err.message', error.message)
