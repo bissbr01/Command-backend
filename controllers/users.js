@@ -68,6 +68,20 @@ router.get('/me', async (req, res) => {
             },
           },
         },
+        {
+          model: User,
+          as: 'friends',
+          through: {
+            attributes: [],
+          },
+          // include: {
+          //   model: User,
+          //   attributes: ['name', 'email', 'picture', 'id'],
+          //   through: {
+          //     attributes: [],
+          //   },
+          // },
+        },
         // { model: Issue, as: 'authoredIssues' },
         // { model: Issue, as: 'assignedIssues' },
       ],

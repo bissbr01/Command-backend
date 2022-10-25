@@ -5,6 +5,7 @@ const Sprint = require('./sprint')
 const Project = require('./project')
 const Team = require('./team')
 const Membership = require('./membership')
+const Colleague = require('./colleague')
 
 Project.hasMany(Sprint, {
   onDelete: 'cascade',
@@ -45,6 +46,8 @@ Project.belongsTo(Team)
 User.belongsToMany(Team, { through: Membership })
 Team.belongsToMany(User, { through: Membership })
 
+User.belongsToMany(User, { as: 'friends', through: Colleague })
+
 module.exports = {
   User,
   Issue,
@@ -53,4 +56,5 @@ module.exports = {
   Project,
   Team,
   Membership,
+  Colleague,
 }
