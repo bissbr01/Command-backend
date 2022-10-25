@@ -8,6 +8,7 @@ Team.init(
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
+      autoIncrement: true,
     },
     name: {
       type: DataTypes.TEXT,

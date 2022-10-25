@@ -38,13 +38,26 @@ router.get('/:id', async (req, res) => {
   res.json(team)
 })
 
-// eslint-disable-next-line consistent-return
 router.post('/', async (req, res) => {
-  const team = await Team.create({
-    name: req.body.name,
-  })
-  if (!team) throw Error('Unable to perform operation')
-  res.json(team)
+  try {
+    const team = await Team.create({
+      name: req.body.name,
+    })
+
+    console.log('team: ', team)
+
+    const me = await User.findByPk(req.auth.id)
+    console.log('me: ', me)
+
+    await team.addUser(me)
+
+    if (!team) throw Error('Unable to perform operation')
+    res.json(team)
+  } catch (error) {
+    console.log('err.name', error.name)
+    console.log('err.message', error.message)
+    res.status(400).json({ error })
+  }
 })
 
 router.patch('/:id', async (req, res) => {

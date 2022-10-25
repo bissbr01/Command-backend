@@ -5,6 +5,7 @@ const up = async ({ context: queryInterface }) => {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
+      autoIncrement: true,
     },
     name: {
       type: DataTypes.TEXT,
