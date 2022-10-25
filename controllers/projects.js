@@ -18,7 +18,6 @@ router.get('/', async (req, res) => {
   if (!me) throw Error('Your request is improperly format')
 
   const myTeamIds = me.teams.map((team) => team.id)
-  console.log('myteamids: ', myTeamIds)
 
   const projects = await Project.findAll({
     where: {
@@ -31,7 +30,7 @@ router.get('/', async (req, res) => {
         },
       ],
     },
-    include: ['lead', 'team'],
+    include: ['lead', 'team', Sprint],
   })
   if (!projects) throw Error('Resource not found')
   res.json(projects)

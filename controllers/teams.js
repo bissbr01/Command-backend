@@ -51,6 +51,9 @@ router.post('/', async (req, res) => {
 
     await team.addUser(me)
 
+    const users = await User.findAll({ where: { id: req.body.userIds } })
+    await team.addUsers(users)
+
     if (!team) throw Error('Unable to perform operation')
     res.json(team)
   } catch (error) {
