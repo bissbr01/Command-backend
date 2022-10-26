@@ -12,16 +12,19 @@ Membership.init(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+      allowNull: false,
     },
     userId: {
       type: DataTypes.STRING,
       allowNull: false,
       references: { model: User, key: 'id' },
+      onDelete: 'CASCADE',
     },
     teamId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: { model: Team, key: 'id' },
+      onDelete: 'CASCADE',
     },
   },
   {

@@ -40,13 +40,25 @@ Sprint.belongsTo(User, { as: 'author' })
 User.hasMany(Project, { foreignKey: 'leadId' })
 Project.belongsTo(User, { as: 'lead' })
 
-Team.hasMany(Project)
+Team.hasMany(Project, {
+  onDelete: 'SET NULL',
+  hooks: true,
+})
 Project.belongsTo(Team)
 
-User.belongsToMany(Team, { through: Membership })
-Team.belongsToMany(User, { through: Membership })
+User.belongsToMany(Team, {
+  through: Membership,
+  onDelete: 'CASCADE',
+  hooks: true,
+})
+Team.belongsToMany(User, {
+  through: Membership,
+})
 
-User.belongsToMany(User, { as: 'friends', through: Colleague })
+User.belongsToMany(User, {
+  as: 'friends',
+  through: Colleague,
+})
 
 module.exports = {
   User,

@@ -1,25 +1,14 @@
 const { Op } = require('sequelize')
 const router = require('express').Router()
 
-const { User, Team } = require('../models')
+const { User, Team, Project } = require('../models')
 
 router.get('/', async (req, res) => {
   const teams = await Team.findAll({
     // where: {
     //   '$users.id$': req.auth.id,
     // },
-    include: {
-      model: User,
-      attributes: ['id', 'fullName', 'firstName', 'lastName'],
-      through: {
-        attributes: ['userId', 'teamId', 'id'],
-      },
-      where: {
-        id: req.auth.id,
-      },
-      required: false,
-      right: true,
-    },
+    include: [User, Project],
   })
   if (!teams) throw Error('Resource not found')
   res.json(teams)
@@ -30,9 +19,7 @@ router.get('/:id', async (req, res) => {
     throw Error('Your request is improperly formatted')
   }
   const team = await Team.findByPk(req.params.id, {
-    // where: {
-    //   [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
-    // },
+    include: [User, Project],
   })
   if (!team) throw Error('Resource not found')
   res.json(team)
@@ -78,13 +65,25 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const team = await Team.findByPk(req.params.id)
+    const team = await Team.findByPk(req.params.id, {
+      include: [Project],
+    })
     if (!team) throw Error('Resource not found')
+
+    const projects = await Project.findAll({
+      where: { id: team.projects.map((project) => project.id) },
+      include: [Team],
+    })
+    const promises = projects.map((project) => project.setTeam(null))
+    console.log('promises', promises)
+    await Promise.all(promises)
+
     const result = await team.destroy()
     if (!result) throw Error('Unable to perform operation')
-    res.status(200).json({ result })
+    res.status(200).json({ success: true, id: team.id })
   } catch (error) {
     console.error(error)
+    res.status(400).json(error)
   }
 })
 
