@@ -37,7 +37,11 @@ Issue.belongsTo(User, { as: 'assignee' })
 User.hasMany(Sprint, { foreignKey: 'authorId' })
 Sprint.belongsTo(User, { as: 'author' })
 
-User.hasMany(Project, { foreignKey: 'leadId' })
+User.hasMany(Project, {
+  foreignKey: 'leadId',
+  onDelete: 'cascade',
+  hooks: true,
+})
 Project.belongsTo(User, { as: 'lead' })
 
 Team.hasMany(Project, {

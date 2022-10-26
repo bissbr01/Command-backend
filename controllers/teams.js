@@ -31,11 +31,7 @@ router.post('/', async (req, res) => {
       name: req.body.name,
     })
 
-    console.log('team: ', team)
-
     const me = await User.findByPk(req.auth.id)
-    console.log('me: ', me)
-
     await team.addUser(me)
 
     const users = await User.findAll({ where: { id: req.body.userIds } })
@@ -52,10 +48,27 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   try {
-    const team = await Team.findByPk(req.params.id)
+    const team = await Team.findByPk(req.params.id, {
+      include: [Project, User],
+    })
     if (!team) throw Error('Resource not found')
-    const attributes = Object.keys(req.body)
-    attributes.forEach((attr) => (team[attr] = req.body[attr]))
+
+    if (req.body.name) {
+      team.name = req.body.name
+    }
+
+    if (req.body.projectIds) {
+      const projects = await Project.findAll({
+        where: { id: req.body.projectIds },
+      })
+      await team.setProjects(projects)
+    }
+
+    if (req.body.userIds) {
+      const users = await User.findAll({ where: { id: req.body.userIds } })
+      await team.setUsers(users)
+    }
+
     await team.save()
     res.json(team)
   } catch (error) {

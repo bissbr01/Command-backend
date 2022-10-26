@@ -25,5 +25,9 @@ Content-Type: application/json
 {
   "token": "{{idToken}}"
 }
+###
+
+DELETE {{baseUrl}}/auth0|6356e5d78d3ef662e0286c41
+Authorization: Bearer {{token}}
 
 ###
