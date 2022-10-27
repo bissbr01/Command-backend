@@ -43,7 +43,7 @@ router.get('/backlog', async (req, res) => {
     console.log('err.name', error.name)
     console.log('err.message', error.message)
     console.log('err.errors', error.errors)
-    res.status(400).send({ error })
+    res.status(400).json(error)
   }
 })
 
@@ -121,7 +121,7 @@ router.post('/', async (req, res) => {
     console.log('err.name', error.name)
     console.log('err.message', error.message)
     console.log('err.errors', error.errors)
-    return res.status(400).json({ error: error.message })
+    res.status(400).json(error)
   }
 })
 
@@ -144,6 +144,7 @@ router.patch('/me', async (req, res) => {
     res.json({})
   } catch (error) {
     console.log(error)
+    res.status(400).json(error)
   }
 })
 router.patch('/:id', async (req, res) => {
@@ -157,6 +158,7 @@ router.patch('/:id', async (req, res) => {
     res.json(issue)
   } catch (error) {
     console.log(error)
+    res.status(400).json(error)
   }
 })
 

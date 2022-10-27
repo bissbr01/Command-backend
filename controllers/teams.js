@@ -73,6 +73,7 @@ router.patch('/:id', async (req, res) => {
     res.json(team)
   } catch (error) {
     console.error(error)
+    res.status(400).json({ error })
   }
 })
 

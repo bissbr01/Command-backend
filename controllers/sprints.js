@@ -140,6 +140,7 @@ router.patch('/:id', async (req, res) => {
     res.json(sprint)
   } catch (error) {
     console.error(error)
+    res.status(400).json(error)
   }
 })
 
@@ -152,6 +153,7 @@ router.delete('/:id', async (req, res) => {
     res.status(200).json({ result })
   } catch (error) {
     console.error(error)
+    res.status(400).json(error)
   }
 })
 

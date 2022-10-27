@@ -64,7 +64,7 @@ router.get('/me', async (req, res) => {
     console.log('err.name', error.name)
     console.log('err.message', error.message)
     console.log('err.errors', error.errors)
-    return res.status(400).json({ error: error.message })
+    res.status(400).json(error)
   }
 })
 
@@ -92,7 +92,7 @@ router.post('/', async (req, res) => {
     console.log('err.name', error.name)
     console.log('err.message', error.message)
     console.log('err.errors', error.errors)
-    return res.status(400).json({ error: error.message })
+    res.status(400).json(error)
   }
 })
 
@@ -109,7 +109,7 @@ router.post('/me/colleagues', async (req, res) => {
     console.log('err.name', error.name)
     console.log('err.message', error.message)
     console.log('err.errors', error.errors)
-    return res.status(400).json({ error: error.message })
+    res.status(400).json(error)
   }
 })
 
@@ -123,6 +123,7 @@ router.patch('/:id', async (req, res) => {
     res.json(user)
   } catch (error) {
     console.error(error)
+    res.status(400).json(error)
   }
 })
 
@@ -135,6 +136,7 @@ router.delete('/:id', async (req, res) => {
     res.status(200).json({ result })
   } catch (error) {
     console.error(error)
+    res.status(400).json(error)
   }
 })
 

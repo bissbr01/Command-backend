@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 
     return res.json(comment)
   } catch (error) {
-    return res.status(400).json({ error })
+    res.status(400).json(error)
   }
 })
 
@@ -65,6 +65,7 @@ router.patch('/:id', async (req, res) => {
     res.json(comment)
   } catch (error) {
     console.log(error)
+    res.status(400).json(error)
   }
 })
 
