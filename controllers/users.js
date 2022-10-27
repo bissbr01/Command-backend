@@ -113,6 +113,23 @@ router.post('/me/colleagues', async (req, res) => {
   }
 })
 
+router.delete('/me/colleagues/:id', async (req, res) => {
+  try {
+    const user = await User.findByPk(req.auth.id)
+    if (!user) throw Error('Your request is improperly formatted')
+    const friend = await User.findByPk(req.params.id)
+    if (!friend) throw Error('Your request is improperly formatted')
+    const result = await user.removeFriend(friend)
+
+    res.json({ result })
+  } catch (error) {
+    console.log('err.name', error.name)
+    console.log('err.message', error.message)
+    console.log('err.errors', error.errors)
+    res.status(400).json(error)
+  }
+})
+
 router.patch('/:id', async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id)

@@ -30,7 +30,16 @@ router.get('/', async (req, res) => {
         },
       ],
     },
-    include: ['lead', 'team', Sprint],
+    include: [
+      'lead',
+      Sprint,
+      {
+        model: Team,
+        include: {
+          model: User,
+        },
+      },
+    ],
   })
   if (!projects) throw Error('Resource not found')
   res.json(projects)
