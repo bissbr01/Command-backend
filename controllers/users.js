@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
   const cert = fs.readFileSync('dev-w8p6njku.pem')
   const decodedToken = jwt.verify(req.body.token, cert)
 
-  // find or add to db
+  // find or add to db.  This syncs local database users with auth0 user store
   const { nickname, name, picture, email, email_verified, sub } = decodedToken
   const [user, created] = await User.findOrCreate({
     where: {
