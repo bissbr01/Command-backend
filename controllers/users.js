@@ -3,6 +3,7 @@ const router = require('express').Router()
 const { User, Project, Sprint, Issue, Team } = require('../models')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
+const { RouteErrors } = require('../util/errorHandler')
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
       },
     ],
   })
-  if (!users) throw Error('Resource not found')
+  if (!users) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(users)
 })
 
@@ -48,7 +49,7 @@ router.get('/me', async (req, res) => {
       },
     ],
   })
-  if (!user) throw Error('Resource not found')
+  if (!user) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(user)
 })
 
@@ -69,16 +70,15 @@ router.post('/', async (req, res) => {
       emailVerified: email_verified,
     },
   })
-  if (!user) throw Error('Your request is improperly formatted')
+  if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
   res.json({ user, created })
 })
 
 router.post('/me/colleagues', async (req, res) => {
   const user = await User.findByPk(req.auth.id)
-  if (!user) throw Error('Your request is improperly formatted')
+  if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
   const friend = await User.findOne({ where: { email: req.body.email } })
-  if (!friend)
-    throw Error('This user is not in the system, so they cannot be added.')
+  if (!friend) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
   const result = await user.addFriend(friend)
 
   res.json({ result })
@@ -86,9 +86,9 @@ router.post('/me/colleagues', async (req, res) => {
 
 router.delete('/me/colleagues/:id', async (req, res) => {
   const user = await User.findByPk(req.auth.id)
-  if (!user) throw Error('Your request is improperly formatted')
+  if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
   const friend = await User.findByPk(req.params.id)
-  if (!friend) throw Error('Your request is improperly formatted')
+  if (!friend) throw Error(RouteErrors.IMPROPER_FORMAT.key)
   const result = await user.removeFriend(friend)
 
   res.json({ result })
@@ -96,7 +96,7 @@ router.delete('/me/colleagues/:id', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   const user = await User.findByPk(req.params.id)
-  if (!user) throw Error('Resource not found')
+  if (!user) throw Error(RouteErrors.NOT_FOUND.key)
   const attributes = Object.keys(req.body)
   attributes.forEach((attr) => (user[attr] = req.body[attr]))
   await user.save()
@@ -105,9 +105,9 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const user = await User.findByPk(req.params.id)
-  if (!user) throw Error('Resource not found')
+  if (!user) throw Error(RouteErrors.NOT_FOUND.key)
   const result = await user.destroy()
-  if (!result) throw Error('Unable to perform operation')
+  if (!result) throw Error(RouteErrors.OPERATION_FAILED.key)
   res.status(200).json({ result })
 })
 

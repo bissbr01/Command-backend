@@ -13,7 +13,7 @@ const commentsRouter = require('./controllers/comments')
 const teamsRouter = require('./controllers/teams')
 const membershipsRouter = require('./controllers/memberships')
 const loginRouter = require('./controllers/login')
-const errorHandler = require('./util/errorHandler')
+const { errorHandler } = require('./util/errorHandler')
 const setAuthId = require('./util/setAuthId')
 
 const app = express()

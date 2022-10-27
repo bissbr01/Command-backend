@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const loginRouter = require('express').Router()
 const User = require('../models/user')
 const { SECRET } = require('../util/config')
+const { RouteErrors } = require('../util/errorHandler')
 
 loginRouter.post('/', async (req, res) => {
   const { email, password } = req.body
@@ -16,11 +17,11 @@ loginRouter.post('/', async (req, res) => {
     user === null ? false : await bcrypt.compare(password, user.password)
 
   if (!passwordCorrect) {
-    throw Error('Invalid username or password')
+    throw Error(RouteErrors.INVALID_CREDENTIALS.key)
   }
 
   if (user.disabled) {
-    throw Error('Your account has been disabled')
+    throw Error(RouteErrors.ACCOUNT_DISABLED.key)
   }
 
   const userForToken = {

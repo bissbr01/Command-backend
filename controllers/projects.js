@@ -2,6 +2,7 @@ const router = require('express').Router()
 
 const { Op } = require('sequelize')
 const { Project, Sprint, Team, User } = require('../models')
+const { RouteErrors } = require('../util/errorHandler')
 
 router.get('/', async (req, res) => {
   const me = await User.findByPk(req.auth.id, {
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
       },
     ],
   })
-  if (!me) throw Error('Your request is improperly format')
+  if (!me) throw Error(RouteErrors.IMPROPER_FORMAT.key)
 
   const myTeamIds = me.teams.map((team) => team.id)
 
@@ -41,7 +42,7 @@ router.get('/', async (req, res) => {
       },
     ],
   })
-  if (!projects) throw Error('Resource not found')
+  if (!projects) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(projects)
 })
 
@@ -52,7 +53,7 @@ router.get('/:id', async (req, res) => {
   const project = await Project.findByPk(req.params.id, {
     include: { model: User, as: 'lead' },
   })
-  if (!project) throw Error('Resource not found')
+  if (!project) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(project)
 })
 
@@ -91,13 +92,13 @@ router.post('/', async (req, res) => {
     await sprint.save()
   })
 
-  if (!project) throw Error('Unable to perform operation')
+  if (!project) throw Error(RouteErrors.OPERATION_FAILED.key)
   res.json(project.toJSON())
 })
 
 router.patch('/:id', async (req, res) => {
   const project = await Project.findByPk(req.params.id)
-  if (!project) throw Error('Resource not found')
+  if (!project) throw Error(RouteErrors.NOT_FOUND.key)
   const attributes = Object.keys(req.body)
   attributes.forEach((attr) => (project[attr] = req.body[attr]))
   await project.save()
@@ -106,9 +107,9 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const project = await Project.findByPk(req.params.id)
-  if (!project) throw Error('Resource not found')
+  if (!project) throw Error(RouteErrors.NOT_FOUND.key)
   const result = await project.destroy()
-  if (!result) throw Error('Unable to perform operation')
+  if (!result) throw Error(RouteErrors.OPERATION_FAILED.key)
   res.status(200).json({ result })
 })
 

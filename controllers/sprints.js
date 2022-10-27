@@ -1,5 +1,6 @@
 const { Op, fn, col } = require('sequelize')
 const router = require('express').Router()
+const { RouteErrors } = require('../util/errorHandler')
 
 const { Sprint, Issue, User, Project } = require('../models')
 
@@ -51,7 +52,7 @@ router.get('/', async (req, res) => {
     where,
     order: [['id', 'DESC']],
   })
-  if (!sprints) throw Error('Resource not found')
+  if (!sprints) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(sprints)
 })
 
@@ -70,7 +71,7 @@ router.get('/board', async (req, res) => {
       },
     ],
   })
-  if (!sprints) throw Error('Resource not found')
+  if (!sprints) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(sprints)
 })
 
@@ -83,7 +84,7 @@ router.get('/backlog', async (req, res) => {
     },
     include: [{ model: User, as: 'author' }, { model: Issue }],
   })
-  if (!sprint) throw Error('Resource not found')
+  if (!sprint) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(sprint)
 })
 
@@ -97,7 +98,7 @@ router.get('/:id', async (req, res) => {
     },
     include: [{ model: User, as: 'author' }, { model: Issue }],
   })
-  if (!sprint) throw Error('Resource not found')
+  if (!sprint) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(sprint)
 })
 
@@ -126,13 +127,13 @@ router.post('/', async (req, res) => {
   sprint.setNameField(project.title, Number(project.sprintCount) - 1)
   await sprint.save()
 
-  if (!sprint) throw Error('Unable to perform operation')
+  if (!sprint) throw Error(RouteErrors.OPERATION_FAILED.key)
   res.json(sprint)
 })
 
 router.patch('/:id', async (req, res) => {
   const sprint = await Sprint.findByPk(req.params.id)
-  if (!sprint) throw Error('Resource not found')
+  if (!sprint) throw Error(RouteErrors.NOT_FOUND.key)
   const attributes = Object.keys(req.body)
   attributes.forEach((attr) => (sprint[attr] = req.body[attr]))
   await sprint.save()
@@ -141,9 +142,9 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const sprint = await Sprint.findByPk(req.params.id)
-  if (!sprint) throw Error('Resource not found')
+  if (!sprint) throw Error(RouteErrors.NOT_FOUND.key)
   const result = await sprint.destroy()
-  if (!result) throw Error('Unable to perform operation')
+  if (!result) throw Error(RouteErrors.OPERATION_FAILED.key)
   res.status(200).json({ result })
 })
 

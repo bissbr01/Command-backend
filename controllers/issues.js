@@ -1,6 +1,7 @@
 const { Op, fn, col } = require('sequelize')
 const { Issue, User, Sprint, Comment, Project } = require('../models')
 const router = require('express').Router()
+const { RouteErrors } = require('../util/errorHandler')
 
 router.get('/', async (req, res) => {
   let where = {}
@@ -8,7 +9,7 @@ router.get('/', async (req, res) => {
     include: 'author',
     where,
   })
-  if (!issues) throw Error('Resource not found')
+  if (!issues) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(issues)
 })
 
@@ -27,7 +28,7 @@ router.get('/backlog', async (req, res) => {
     ],
     order: [['boardOrder', 'ASC']],
   })
-  if (!issues) throw Error('Resource not found')
+  if (!issues) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(issues)
 })
 
@@ -46,13 +47,13 @@ router.get('/me', async (req, res) => {
     ],
     order: [['boardOrder', 'ASC']],
   })
-  if (!issues) throw Error('Resource not found')
+  if (!issues) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(issues)
 })
 
 router.get('/:id', async (req, res) => {
   if (!req.params.id || req.params.id === 'undefined') {
-    throw Error('Your request is improperly formatted')
+    throw Error(RouteErrors.IMPROPER_FORMAT.key)
   }
   const issue = await Issue.findByPk(req.params.id, {
     where: {
@@ -65,7 +66,7 @@ router.get('/:id', async (req, res) => {
       { model: Comment, include: ['author'], order: [['createdAt', 'DESC']] },
     ],
   })
-  if (!issue) throw Error('Resource not found')
+  if (!issue) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(issue)
 })
 
@@ -101,7 +102,7 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   const issue = await Issue.findByPk(req.params.id)
-  if (!issue) throw Error('Resource not found')
+  if (!issue) throw Error(RouteErrors.NOT_FOUND.key)
 
   const attributes = Object.keys(req.body)
   attributes.forEach((attr) => (issue[attr] = req.body[attr]))
@@ -111,14 +112,14 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const issue = await Issue.findByPk(req.params.id)
-  if (!issue) throw Error('Resource not found')
+  if (!issue) throw Error(RouteErrors.NOT_FOUND.key)
 
   if (req.auth.id !== issue.authorId) {
     throw Error('You do not have permission to perform this action')
   }
 
   const result = await issue.destroy()
-  if (!result) throw Error('Unable to perform operation')
+  if (!result) throw Error(RouteErrors.OPERATION_FAILED.key)
   res.status(200).json({ success: true, id: issue.id })
 })
 
