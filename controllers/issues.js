@@ -4,16 +4,7 @@ const router = require('express').Router()
 
 router.get('/', async (req, res) => {
   let where = {}
-  // if (req.query.search) {
-  //   where = {
-  //     [Op.or]: [
-  //       { title: { [Op.iLike]: `%${req.query.search}%` } },
-  //       { author: { [Op.iLike]: `%${req.query.search}%` } },
-  //     ],
-  //   }
-  // }
   const issues = await Issue.findAll({
-    // attributes: { exclude: ['userId'] },
     include: 'author',
     where,
   })
@@ -22,29 +13,22 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/backlog', async (req, res) => {
-  try {
-    const issues = await Issue.findAll({
-      where: {
-        [Op.and]: [
-          { sprintId: { [Op.is]: null } },
-          { '$sprint.projectId$': req.query.projectId },
-          // { [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }] },
-        ],
-      },
-      include: [
-        { model: User, as: 'author' },
-        { model: User, as: 'assignee' },
+  const issues = await Issue.findAll({
+    where: {
+      [Op.and]: [
+        { sprintId: { [Op.is]: null } },
+        { '$sprint.projectId$': req.query.projectId },
+        // { [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }] },
       ],
-      order: [['boardOrder', 'ASC']],
-    })
-    if (!issues) throw Error('Resource not found')
-    res.json(issues)
-  } catch (error) {
-    console.log('err.name', error.name)
-    console.log('err.message', error.message)
-    console.log('err.errors', error.errors)
-    res.status(400).json(error)
-  }
+    },
+    include: [
+      { model: User, as: 'author' },
+      { model: User, as: 'assignee' },
+    ],
+    order: [['boardOrder', 'ASC']],
+  })
+  if (!issues) throw Error('Resource not found')
+  res.json(issues)
 })
 
 router.get('/me', async (req, res) => {
@@ -86,80 +70,43 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  try {
-    const issue = await Issue.create({ ...req.body, authorId: req.auth.id })
+  const issue = await Issue.create({ ...req.body, authorId: req.auth.id })
 
-    // set issue name field by getting Sprint Issue count and name:
-    const project = await Project.findByPk(req.body.projectId, {
-      attributes: {
-        include: [
-          'title',
-          [fn('COUNT', col('sprints.issues.id')), 'issueCount'],
-        ],
-      },
-      include: [
-        {
-          model: Sprint,
+  // set issue name field by getting Sprint Issue count and name:
+  const project = await Project.findByPk(req.body.projectId, {
+    attributes: {
+      include: ['title', [fn('COUNT', col('sprints.issues.id')), 'issueCount']],
+    },
+    include: [
+      {
+        model: Sprint,
+        attributes: [],
+        include: {
+          model: Issue,
           attributes: [],
-          include: {
-            model: Issue,
-            attributes: [],
-          },
         },
-      ],
-      group: ['project.id'],
-      raw: true,
-    })
+      },
+    ],
+    group: ['project.id'],
+    raw: true,
+  })
 
-    console.log('project issue count in controller: ', project.issueCount)
+  console.log('project issue count in controller: ', project.issueCount)
 
-    issue.setNameField(project.title, project.issueCount)
-    await issue.save()
+  issue.setNameField(project.title, project.issueCount)
+  await issue.save()
 
-    return res.json(project)
-  } catch (error) {
-    console.log('err.name', error.name)
-    console.log('err.message', error.message)
-    console.log('err.errors', error.errors)
-    res.status(400).json(error)
-  }
+  return res.json(project)
 })
 
-router.patch('/me', async (req, res) => {
-  // req.body = { issues: Issue[] } to all be patched
-  if (!'issues' in req.body || !Array.isArray(req.body.issues)) {
-    throw Error('Your request is improperly formatted')
-  }
-  const { issues: reqIssues } = req.body
-  let result = []
-  try {
-    reqIssues.forEach(async (reqIssue) => {
-      const patchIssue = await Issue.findByPk(reqIssue?.id)
-      if (!patchIssue) throw Error('Resource not found')
-      const keys = Object.keys(reqIssue)
-      keys.forEach((key) => (patchIssue[key] = reqIssue[key]))
-      await patchIssue.save()
-    })
-
-    res.json({})
-  } catch (error) {
-    console.log(error)
-    res.status(400).json(error)
-  }
-})
 router.patch('/:id', async (req, res) => {
-  try {
-    const issue = await Issue.findByPk(req.params.id)
-    if (!issue) throw Error('Resource not found')
+  const issue = await Issue.findByPk(req.params.id)
+  if (!issue) throw Error('Resource not found')
 
-    const attributes = Object.keys(req.body)
-    attributes.forEach((attr) => (issue[attr] = req.body[attr]))
-    await issue.save()
-    res.json(issue)
-  } catch (error) {
-    console.log(error)
-    res.status(400).json(error)
-  }
+  const attributes = Object.keys(req.body)
+  attributes.forEach((attr) => (issue[attr] = req.body[attr]))
+  await issue.save()
+  res.json(issue)
 })
 
 router.delete('/:id', async (req, res) => {
@@ -170,7 +117,6 @@ router.delete('/:id', async (req, res) => {
     throw Error('You do not have permission to perform this action')
   }
 
-  // await issue.removeComments()
   const result = await issue.destroy()
   if (!result) throw Error('Unable to perform operation')
   res.status(200).json({ success: true, id: issue.id })

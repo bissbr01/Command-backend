@@ -22,16 +22,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
   let where = {}
-  // if (req.query.search) {
-  //   where = {
-  //     [Op.or]: [
-  //       { title: { [Op.iLike]: `%${req.query.search}%` } },
-  //       { author: { [Op.iLike]: `%${req.query.search}%` } },
-  //     ],
-  //   }
-  // }
   const comments = await Comment.findAll({
-    // attributes: { exclude: ['userId'] },
     include: 'author',
     where,
     order: [['createdAt', 'DESC']],
@@ -41,32 +32,23 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  try {
-    const comment = await Comment.create({
-      authorId: req.auth.id,
-      issueId: req.body.issueId,
-      text: req.body.text,
-    })
-
-    return res.json(comment)
-  } catch (error) {
-    res.status(400).json(error)
-  }
+  const comment = await Comment.create({
+    authorId: req.auth.id,
+    issueId: req.body.issueId,
+    text: req.body.text,
+  })
+  if (!comment) throw Error('Unable to perform operation')
+  return res.json(comment)
 })
 
 router.patch('/:id', async (req, res) => {
-  try {
-    const comment = await Comment.findByPk(req.params.id)
-    if (!comment) throw Error('Resource not found')
+  const comment = await Comment.findByPk(req.params.id)
+  if (!comment) throw Error('Resource not found')
 
-    const attributes = Object.keys(req.body)
-    attributes.forEach((attr) => (comment[attr] = req.body[attr]))
-    await comment.save()
-    res.json(comment)
-  } catch (error) {
-    console.log(error)
-    res.status(400).json(error)
-  }
+  const attributes = Object.keys(req.body)
+  attributes.forEach((attr) => (comment[attr] = req.body[attr]))
+  await comment.save()
+  res.json(comment)
 })
 
 router.delete('/:id', async (req, res) => {

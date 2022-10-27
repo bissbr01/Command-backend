@@ -131,30 +131,20 @@ router.post('/', async (req, res) => {
 })
 
 router.patch('/:id', async (req, res) => {
-  try {
-    const sprint = await Sprint.findByPk(req.params.id)
-    if (!sprint) throw Error('Resource not found')
-    const attributes = Object.keys(req.body)
-    attributes.forEach((attr) => (sprint[attr] = req.body[attr]))
-    await sprint.save()
-    res.json(sprint)
-  } catch (error) {
-    console.error(error)
-    res.status(400).json(error)
-  }
+  const sprint = await Sprint.findByPk(req.params.id)
+  if (!sprint) throw Error('Resource not found')
+  const attributes = Object.keys(req.body)
+  attributes.forEach((attr) => (sprint[attr] = req.body[attr]))
+  await sprint.save()
+  res.json(sprint)
 })
 
 router.delete('/:id', async (req, res) => {
-  try {
-    const sprint = await Sprint.findByPk(req.params.id)
-    if (!sprint) throw Error('Resource not found')
-    const result = await sprint.destroy()
-    if (!result) throw Error('Unable to perform operation')
-    res.status(200).json({ result })
-  } catch (error) {
-    console.error(error)
-    res.status(400).json(error)
-  }
+  const sprint = await Sprint.findByPk(req.params.id)
+  if (!sprint) throw Error('Resource not found')
+  const result = await sprint.destroy()
+  if (!result) throw Error('Unable to perform operation')
+  res.status(200).json({ result })
 })
 
 module.exports = router

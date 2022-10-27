@@ -13,16 +13,11 @@ router.get('/:id', async (req, res) => {
   if (!req.params.id || req.params.id === 'undefined') {
     throw Error('Your request is improperly formatted')
   }
-  const membership = await Membership.findByPk(req.params.id, {
-    // where: {
-    //   [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }],
-    // },
-  })
+  const membership = await Membership.findByPk(req.params.id, {})
   if (!membership) throw Error('Resource not found')
   res.json(membership)
 })
 
-// eslint-disable-next-line consistent-return
 router.post('/', async (req, res) => {
   const membership = await Membership.create({
     userId: req.body.userId,

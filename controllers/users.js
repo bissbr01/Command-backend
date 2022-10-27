@@ -22,139 +22,93 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/me', async (req, res) => {
-  try {
-    const user = await User.findByPk(req.auth.sub, {
-      include: [
-        Project,
-        {
-          model: Team,
-          attributes: ['name', 'id'],
-          through: {
-            attributes: [],
-          },
-          include: {
-            model: User,
-            attributes: ['name', 'email', 'picture', 'id'],
-            through: {
-              attributes: [],
-            },
-          },
+  const user = await User.findByPk(req.auth.sub, {
+    include: [
+      Project,
+      {
+        model: Team,
+        attributes: ['name', 'id'],
+        through: {
+          attributes: [],
         },
-        {
+        include: {
           model: User,
-          as: 'friends',
+          attributes: ['name', 'email', 'picture', 'id'],
           through: {
             attributes: [],
           },
-          // include: {
-          //   model: User,
-          //   attributes: ['name', 'email', 'picture', 'id'],
-          //   through: {
-          //     attributes: [],
-          //   },
-          // },
         },
-        // { model: Issue, as: 'authoredIssues' },
-        // { model: Issue, as: 'assignedIssues' },
-      ],
-    })
-    if (!user) throw Error('Resource not found')
-    res.json(user)
-  } catch (error) {
-    console.log('err.name', error.name)
-    console.log('err.message', error.message)
-    console.log('err.errors', error.errors)
-    res.status(400).json(error)
-  }
+      },
+      {
+        model: User,
+        as: 'friends',
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  })
+  if (!user) throw Error('Resource not found')
+  res.json(user)
 })
 
 router.post('/', async (req, res) => {
-  try {
-    // use id_token from req.body to get user info from auth0
-    const cert = fs.readFileSync('dev-w8p6njku.pem')
-    const decodedToken = jwt.verify(req.body.token, cert)
+  // use id_token from req.body to get user info from auth0
+  const cert = fs.readFileSync('dev-w8p6njku.pem')
+  const decodedToken = jwt.verify(req.body.token, cert)
 
-    // find or add to db
-    const { nickname, name, picture, email, email_verified, sub } = decodedToken
-    const [user, created] = await User.findOrCreate({
-      where: {
-        id: sub,
-        nickname,
-        name,
-        picture,
-        email,
-        emailVerified: email_verified,
-      },
-    })
-    if (!user) throw Error('Your request is improperly formatted')
-    res.json({ user, created })
-  } catch (error) {
-    console.log('err.name', error.name)
-    console.log('err.message', error.message)
-    console.log('err.errors', error.errors)
-    res.status(400).json(error)
-  }
+  // find or add to db
+  const { nickname, name, picture, email, email_verified, sub } = decodedToken
+  const [user, created] = await User.findOrCreate({
+    where: {
+      id: sub,
+      nickname,
+      name,
+      picture,
+      email,
+      emailVerified: email_verified,
+    },
+  })
+  if (!user) throw Error('Your request is improperly formatted')
+  res.json({ user, created })
 })
 
 router.post('/me/colleagues', async (req, res) => {
-  try {
-    const user = await User.findByPk(req.auth.id)
-    if (!user) throw Error('Your request is improperly formatted')
-    const friend = await User.findOne({ where: { email: req.body.email } })
-    if (!friend) throw Error('Your request is improperly formatted')
-    const result = await user.addFriend(friend)
+  const user = await User.findByPk(req.auth.id)
+  if (!user) throw Error('Your request is improperly formatted')
+  const friend = await User.findOne({ where: { email: req.body.email } })
+  if (!friend)
+    throw Error('This user is not in the system, so they cannot be added.')
+  const result = await user.addFriend(friend)
 
-    res.json({ result })
-  } catch (error) {
-    console.log('err.name', error.name)
-    console.log('err.message', error.message)
-    console.log('err.errors', error.errors)
-    res.status(400).json(error)
-  }
+  res.json({ result })
 })
 
 router.delete('/me/colleagues/:id', async (req, res) => {
-  try {
-    const user = await User.findByPk(req.auth.id)
-    if (!user) throw Error('Your request is improperly formatted')
-    const friend = await User.findByPk(req.params.id)
-    if (!friend) throw Error('Your request is improperly formatted')
-    const result = await user.removeFriend(friend)
+  const user = await User.findByPk(req.auth.id)
+  if (!user) throw Error('Your request is improperly formatted')
+  const friend = await User.findByPk(req.params.id)
+  if (!friend) throw Error('Your request is improperly formatted')
+  const result = await user.removeFriend(friend)
 
-    res.json({ result })
-  } catch (error) {
-    console.log('err.name', error.name)
-    console.log('err.message', error.message)
-    console.log('err.errors', error.errors)
-    res.status(400).json(error)
-  }
+  res.json({ result })
 })
 
 router.patch('/:id', async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id)
-    if (!user) throw Error('Resource not found')
-    const attributes = Object.keys(req.body)
-    attributes.forEach((attr) => (user[attr] = req.body[attr]))
-    await user.save()
-    res.json(user)
-  } catch (error) {
-    console.error(error)
-    res.status(400).json(error)
-  }
+  const user = await User.findByPk(req.params.id)
+  if (!user) throw Error('Resource not found')
+  const attributes = Object.keys(req.body)
+  attributes.forEach((attr) => (user[attr] = req.body[attr]))
+  await user.save()
+  res.json(user)
 })
 
 router.delete('/:id', async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id)
-    if (!user) throw Error('Resource not found')
-    const result = await user.destroy()
-    if (!result) throw Error('Unable to perform operation')
-    res.status(200).json({ result })
-  } catch (error) {
-    console.error(error)
-    res.status(400).json(error)
-  }
+  const user = await User.findByPk(req.params.id)
+  if (!user) throw Error('Resource not found')
+  const result = await user.destroy()
+  if (!result) throw Error('Unable to perform operation')
+  res.status(200).json({ result })
 })
 
 module.exports = router
