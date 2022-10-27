@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
   } catch (error) {
     console.log('err.name', error.name)
     console.log('err.message', error.message)
-    res.status(400).json({ error })
+    res.status(400).json(error)
   }
 })
 
@@ -73,7 +73,7 @@ router.patch('/:id', async (req, res) => {
     res.json(team)
   } catch (error) {
     console.error(error)
-    res.status(400).json({ error })
+    res.status(400).json(error)
   }
 })
 
