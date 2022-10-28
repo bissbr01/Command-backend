@@ -2,7 +2,7 @@ const { Op, fn, col } = require('sequelize')
 const router = require('express').Router()
 const { RouteErrors } = require('../util/errorHandler')
 
-const { Sprint, Issue, User, Project } = require('../models')
+const { Sprint, Issue, User, Project, Comment } = require('../models')
 
 router.get('/', async (req, res) => {
   let where = {}
@@ -59,14 +59,14 @@ router.get('/', async (req, res) => {
 router.get('/board', async (req, res) => {
   const sprints = await Sprint.findOne({
     where: {
-      authorId: req.auth.id,
-      displayOnBoard: true,
+      // [Op.or]: [{ authorId: req.auth.id } ],
       projectId: req.query.projectId,
+      displayOnBoard: true,
     },
     include: [
       {
         model: Issue,
-        include: ['author'],
+        include: ['author', { model: Comment }],
         order: [['createdAt', 'ASC']],
       },
     ],

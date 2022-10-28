@@ -31,6 +31,7 @@ router.get('/', async (req, res) => {
         },
       ],
     },
+    order: [['createdAt', 'ASC']],
     include: [
       'lead',
       Sprint,
