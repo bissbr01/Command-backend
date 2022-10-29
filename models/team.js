@@ -10,6 +10,12 @@ Team.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    identifier: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `Team ${this.name}`
+      },
+    },
     name: {
       type: DataTypes.TEXT,
       allowNull: false,

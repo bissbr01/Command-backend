@@ -14,6 +14,12 @@ Membership.init(
       autoIncrement: true,
       allowNull: false,
     },
+    identifier: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `Membership ${this.id}`
+      },
+    },
     userId: {
       type: DataTypes.STRING,
       allowNull: false,

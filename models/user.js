@@ -12,6 +12,12 @@ User.init(
     name: {
       type: DataTypes.TEXT,
     },
+    identifier: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `User ${this.nickname}`
+      },
+    },
     nickname: {
       type: DataTypes.TEXT,
     },

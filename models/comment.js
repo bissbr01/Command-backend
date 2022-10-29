@@ -10,6 +10,12 @@ Comment.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    identifier: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `Comment`
+      },
+    },
     text: {
       type: DataTypes.TEXT,
       allowNull: false,

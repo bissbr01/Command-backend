@@ -22,15 +22,12 @@ Sprint.init(
     },
     name: {
       type: DataTypes.STRING,
-      // set(projectTitle, projectSprintsCount) {
-      //   const words = projectTitle.split(' ')
-      //   const firstLetters = words.map((word) => word[0]).join('')
-
-      //   this.setDataValue(
-      //     'name',
-      //     `${firstLetters} Sprint ${projectSprintsCount + 1}`
-      //   )
-      // },
+    },
+    identifier: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `Sprint ${this.name}`
+      },
     },
     goal: {
       type: DataTypes.STRING,

@@ -10,6 +10,12 @@ Project.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    identifier: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `Project ${this.title}`
+      },
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,

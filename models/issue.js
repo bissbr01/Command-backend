@@ -24,6 +24,12 @@ Issue.init(
     name: {
       type: DataTypes.STRING,
     },
+    identifier: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `Issue ${this.name}`
+      },
+    },
     status: {
       type: DataTypes.STRING,
       allowNull: false,

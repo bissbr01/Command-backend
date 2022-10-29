@@ -12,6 +12,12 @@ Colleague.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    identifier: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `Colleague ${this.id}`
+      },
+    },
     userId: {
       type: DataTypes.STRING,
       allowNull: false,
