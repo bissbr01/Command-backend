@@ -66,7 +66,7 @@ router.get('/board', async (req, res) => {
     include: [
       {
         model: Issue,
-        include: ['author', { model: Comment }],
+        include: ['author', 'assignee', Comment],
         order: [['createdAt', 'ASC']],
       },
     ],

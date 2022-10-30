@@ -52,7 +52,10 @@ router.get('/:id', async (req, res) => {
     throw Error('Your request is improperly formatted')
   }
   const project = await Project.findByPk(req.params.id, {
-    include: { model: User, as: 'lead' },
+    include: [
+      { model: User, as: 'lead' },
+      { model: Team, include: [User] },
+    ],
   })
   if (!project) throw Error(RouteErrors.NOT_FOUND.key)
   res.json(project)
