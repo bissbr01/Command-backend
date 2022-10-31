@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
     include: [
       {
         model: Issue,
-        include: ['author'],
+        include: ['author', 'assignee'],
         order: [['createdAt', 'ASC']],
       },
       'author',
