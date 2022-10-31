@@ -75,7 +75,6 @@ router.delete('/:id', async (req, res) => {
     include: [Team],
   })
   const promises = projects.map((project) => project.setTeam(null))
-  console.log('promises', promises)
   await Promise.all(promises)
 
   const result = await team.destroy()

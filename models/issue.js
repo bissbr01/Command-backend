@@ -9,8 +9,6 @@ class Issue extends Model {
       .join('')
       .toUpperCase()
 
-    console.log('issuecount: ', issueCount)
-
     this.setDataValue('name', `${projectAbbr}-${issueCount}`)
   }
 }

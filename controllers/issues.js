@@ -92,8 +92,6 @@ router.post('/', async (req, res) => {
     raw: true,
   })
 
-  console.log('project issue count in controller: ', project.issueCount)
-
   issue.setNameField(project.title, project.issueCount)
   await issue.save()
 
