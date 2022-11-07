@@ -54,7 +54,7 @@ const down = async ({ context: queryInterface }) => {
       'first_name',
       {
         type: DataTypes.STRING,
-        // allowNull: false,
+        allowNull: false,
       },
       { transaction }
     )
@@ -63,7 +63,7 @@ const down = async ({ context: queryInterface }) => {
       'last_name',
       {
         type: DataTypes.STRING,
-        // allowNull: false,
+        allowNull: false,
       },
       { transaction }
     )
@@ -72,7 +72,7 @@ const down = async ({ context: queryInterface }) => {
       'password',
       {
         type: DataTypes.STRING,
-        // allowNull: false,
+        allowNull: false,
       },
       { transaction }
     )

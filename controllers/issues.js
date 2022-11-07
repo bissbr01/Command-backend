@@ -19,7 +19,6 @@ router.get('/backlog', async (req, res) => {
       [Op.and]: [
         { sprintId: { [Op.is]: null } },
         { '$sprint.projectId$': req.query.projectId },
-        // { [Op.or]: [{ authorId: req.auth.id }, { assigneeId: req.auth.id }] },
       ],
     },
     include: [
