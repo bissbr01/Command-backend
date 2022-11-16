@@ -3,6 +3,7 @@ const router = require('express').Router()
 const { User, Project, Sprint, Issue, Team } = require('../models')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
+const sgEmail = require('../util/sendEmail')
 const { RouteErrors } = require('../util/errorHandler')
 
 router.get('/', async (req, res) => {
@@ -80,6 +81,19 @@ router.post('/me/colleagues', async (req, res) => {
   const friend = await User.findOne({ where: { email: req.body.email } })
   if (!friend) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
   const result = await user.addFriend(friend)
+  try {
+    await sgEmail.send({
+      to: friend.email,
+      from: 'commandprojectmanagement@gmail.com',
+      subject: 'Colleague Request on Command Project Management',
+      text: `${user.nickname} has requested you as a colleague on Command Project Mangement.  
+      
+      Log in to accept or remove their request.
+      `,
+    })
+  } catch (error) {
+    console.log('error: ', error)
+  }
 
   res.json({ result })
 })
