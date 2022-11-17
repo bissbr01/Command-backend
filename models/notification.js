@@ -6,6 +6,11 @@ class Notification extends Model {
     colleageRequest: 'colleagueRequest',
     issueAssigned: 'issueAssigned',
   }
+  static statuses = {
+    alert: 'ALERT',
+    read: 'READ',
+    archive: 'ARCHIVE',
+  }
 }
 
 Notification.init(
@@ -26,6 +31,10 @@ Notification.init(
     },
     message: {
       type: DataTypes.STRING,
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'ALERT',
     },
   },
   {

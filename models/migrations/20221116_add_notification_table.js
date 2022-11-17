@@ -19,6 +19,10 @@ const up = async ({ context: queryInterface }) => {
     message: {
       type: DataTypes.STRING,
     },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'ALERT',
+    },
     created_at: {
       allowNull: false,
       type: DataTypes.DATE,
