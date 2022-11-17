@@ -16,6 +16,10 @@ const up = async ({ context: queryInterface }) => {
       allowNull: false,
       references: { model: 'users', key: 'id' },
     },
+    project_id: {
+      type: DataTypes.INTEGER,
+      references: { model: 'projects', key: 'id' },
+    },
     message: {
       type: DataTypes.STRING,
     },

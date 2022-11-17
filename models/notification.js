@@ -29,6 +29,10 @@ Notification.init(
       allowNull: false,
       references: { model: 'users', key: 'id' },
     },
+    projectId: {
+      type: DataTypes.INTEGER,
+      references: { model: 'projects', key: 'id' },
+    },
     message: {
       type: DataTypes.STRING,
     },

@@ -28,6 +28,7 @@ router.get('/me', async (req, res) => {
   const user = await User.findByPk(req.auth.sub, {
     include: [
       Project,
+      Notification,
       {
         model: Team,
         attributes: ['name', 'id'],

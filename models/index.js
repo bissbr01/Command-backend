@@ -51,6 +51,12 @@ User.hasMany(Notification, {
 })
 Notification.belongsTo(User)
 
+Project.hasMany(Notification, {
+  onDelete: 'cascade',
+  hooks: true,
+})
+Notification.belongsTo(User)
+
 Team.hasMany(Project, {
   onDelete: 'SET NULL',
   hooks: true,
