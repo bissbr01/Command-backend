@@ -6,6 +6,7 @@ const Project = require('./project')
 const Team = require('./team')
 const Membership = require('./membership')
 const Colleague = require('./colleague')
+const Notification = require('./notification')
 
 Project.hasMany(Sprint, {
   onDelete: 'cascade',
@@ -43,6 +44,12 @@ User.hasMany(Project, {
   hooks: true,
 })
 Project.belongsTo(User, { as: 'lead' })
+
+User.hasMany(Notification, {
+  onDelete: 'cascade',
+  hooks: true,
+})
+Notification.belongsTo(User)
 
 Team.hasMany(Project, {
   onDelete: 'SET NULL',

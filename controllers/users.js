@@ -3,8 +3,9 @@ const router = require('express').Router()
 const { User, Project, Sprint, Issue, Team } = require('../models')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
-const sgEmail = require('../util/sendEmail')
+const { sgEmail, colleagueRequestEmail } = require('../util/sendEmail')
 const { RouteErrors } = require('../util/errorHandler')
+const Notification = require('../models/notification')
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
@@ -75,25 +76,30 @@ router.post('/', async (req, res) => {
   res.json({ user, created })
 })
 
+router.post('/me/notifications', async (req, res) => {
+  const user = await User.findByPk(req.auth.id)
+  if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
+  const friend = await User.findOne({ where: { email: req.body.email } })
+  if (!friend) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
+
+  try {
+    await sgEmail.send(colleagueRequestEmail(friend.email, user.nickname))
+    await Notification.create({
+      type: Notification.types.colleageRequest,
+      userId: user.id,
+    })
+  } catch (error) {
+    console.log('error: ', error)
+    throw Error(RouteErrors.IMPROPER_FORMAT.key)
+  }
+})
+
 router.post('/me/colleagues', async (req, res) => {
   const user = await User.findByPk(req.auth.id)
   if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
   const friend = await User.findOne({ where: { email: req.body.email } })
   if (!friend) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
   const result = await user.addFriend(friend)
-  try {
-    await sgEmail.send({
-      to: friend.email,
-      from: 'commandprojectmanagement@gmail.com',
-      subject: 'Colleague Request on Command Project Management',
-      text: `${user.nickname} has requested you as a colleague on Command Project Mangement.  
-      
-      Log in to accept or remove their request.
-      `,
-    })
-  } catch (error) {
-    console.log('error: ', error)
-  }
 
   res.json({ result })
 })

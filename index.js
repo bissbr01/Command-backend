@@ -1,7 +1,6 @@
 const express = require('express')
 const cors = require('cors')
 require('express-async-errors')
-const jwtVerify = require('./util/jwtVerify')
 const auth0CheckJwt = require('./util/auth0CheckJwt')
 const { PORT } = require('./util/config')
 const { connectToDatabase } = require('./util/db')
@@ -35,10 +34,6 @@ app.use('/api/memberships', membershipsRouter)
 app.use('/api/login', loginRouter)
 
 app.use(errorHandler)
-
-app.get('/api/auth0', (req, res) => {
-  res.send({ auth: req.auth })
-})
 
 const start = async () => {
   await connectToDatabase()

@@ -1,0 +1,20 @@
+@baseUrl=http://localhost:3001/api/notifications
+
+@token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlpzQkFmTFF5LUswWjMxM1UxNE1GSCJ9.eyJpc3MiOiJodHRwczovL2Rldi13OHA2bmprdS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ2l0aHVifDEzMTU1MTIwIiwiYXVkIjpbImh0dHBzOi8vc2NydW0tbWFuYWdlbWVudC1iYWNrZW5kLm9ucmVuZGVyLmNvbSIsImh0dHBzOi8vZGV2LXc4cDZuamt1LnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2Njg2NTAxNzEsImV4cCI6MTY2ODczNjU3MSwiYXpwIjoibjBJRllFRU1tZ3hoeUFtaXRMb2tlWUdWeUhLY3JSU1oiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOltdfQ.M8Ra2vM8UCC3ubDt9W3m7eUJ_fCjB_NJ1T6DimazShFmaEPvLcG1jICWUYmSotHhEYuyQVRC9bkHhCep_5FVzV89-dPKYynWxLdGhMG8AKOv8XoBC09I8shk1inslqTOcHXsr51WYGg_BvgkJLxZhsEelful5NpuihJPVvOBZVA9hgm7ccRHGn5IR0kbJVqa2XxKAHNs8-JJJs49NvaKfT2b0Esidd13G8uLmw6dPstaeb_BO3IxvHtyeAdfVozcMj41POFrkfVTJnm4GDOq7PUJxmIa83VJrzRITPVVFCfaNuvfDf9aNNMGF6kUfJdC0--ssFHJa9O8sg_gqo6IAA
+###
+
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+
+###
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "userId": "3",
+  "teamId": "1"
+}
+
+###
