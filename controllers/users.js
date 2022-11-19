@@ -3,7 +3,11 @@ const router = require('express').Router()
 const { User, Project, Sprint, Issue, Team } = require('../models')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
-const { sgEmail, colleagueRequestEmail } = require('../util/sendEmail')
+const {
+  sgMail,
+  colleagueRequestEmail,
+  issueAssignEmail,
+} = require('../util/sendEmail')
 const { RouteErrors } = require('../util/errorHandler')
 const Notification = require('../models/notification')
 
@@ -25,7 +29,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/me', async (req, res) => {
-  const user = await User.findByPk(req.auth.sub, {
+  const user = await User.findByPk(req.auth.id, {
     include: [
       Project,
       Notification,
@@ -80,15 +84,26 @@ router.post('/', async (req, res) => {
 router.post('/me/notifications', async (req, res) => {
   const user = await User.findByPk(req.auth.id)
   if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
-  const friend = await User.findOne({ where: { email: req.body.email } })
-  if (!friend) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
+  const colleague = await User.findOne({ where: { email: req.body.email } })
+  if (!colleague) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
 
   try {
-    await sgEmail.send(colleagueRequestEmail(friend.email, user.nickname))
-    await Notification.create({
-      type: Notification.types.colleageRequest,
-      userId: user.id,
+    let type
+    if (req.body.type === Notification.types.colleagueRequest) {
+      type = Notification.types.colleagueRequest
+      await sgMail.send(colleagueRequestEmail(colleague.email, user.nickname))
+    } else if (req.body.type === Notification.types.issueAssigned) {
+      type = Notification.types.issueAssigned
+      await sgMail.send(issueAssignEmail(colleague.email, user.nickname))
+    } else {
+      type = Notification.types.colleagueConfirmed
+      await sgMail.send(colleagueConfirmed(colleague.email, user.nicknaname))
+    }
+    const notification = await Notification.create({
+      type,
+      userId: colleague.id,
     })
+    res.json({ notification })
   } catch (error) {
     console.log('error: ', error)
     throw Error(RouteErrors.IMPROPER_FORMAT.key)
@@ -98,9 +113,14 @@ router.post('/me/notifications', async (req, res) => {
 router.post('/me/colleagues', async (req, res) => {
   const user = await User.findByPk(req.auth.id)
   if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
-  const friend = await User.findOne({ where: { email: req.body.email } })
-  if (!friend) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
-  const result = await user.addFriend(friend)
+  const colleague = await User.findOne({ where: { email: req.body.email } })
+  if (!colleague) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
+  const result = await user.addFriend(colleague)
+
+  const notification = await Notification.create({
+    type: Notification.types.colleagueConfirmed,
+    userId: colleague.id,
+  })
 
   res.json({ result })
 })
@@ -108,9 +128,9 @@ router.post('/me/colleagues', async (req, res) => {
 router.delete('/me/colleagues/:id', async (req, res) => {
   const user = await User.findByPk(req.auth.id)
   if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
-  const friend = await User.findByPk(req.params.id)
-  if (!friend) throw Error(RouteErrors.IMPROPER_FORMAT.key)
-  const result = await user.removeFriend(friend)
+  const colleague = await User.findByPk(req.params.id)
+  if (!colleague) throw Error(RouteErrors.IMPROPER_FORMAT.key)
+  const result = await user.removeFriend(colleague)
 
   res.json({ result })
 })

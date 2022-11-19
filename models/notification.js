@@ -3,7 +3,8 @@ const { sequelize } = require('../util/db')
 
 class Notification extends Model {
   static types = {
-    colleageRequest: 'colleagueRequest',
+    colleagueRequest: 'colleagueRequest',
+    colleagueConfirmed: 'colleagueConfirmed',
     issueAssigned: 'issueAssigned',
   }
   static statuses = {
