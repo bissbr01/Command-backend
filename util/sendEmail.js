@@ -23,5 +23,19 @@ const colleagueRequestEmail = (recipient, requesterName) => ({
       You can log in at https://scrum-management-frontend.onrender.com/ to accept or remove their request.
       `,
 })
+const colleagueConfirmedEmail = (recipient, requesterName) => ({
+  to: recipient,
+  from: DEFAULT_SENDER,
+  subject: 'Colleague Confirmed on Command Project Management',
+  text: `${requesterName} has confirmed you as a colleague on Command Project Mangement.  
+      
+      You can log in at https://scrum-management-frontend.onrender.com/ to see them under colleagues.
+      `,
+})
 
-module.exports = { sgMail, colleagueRequestEmail, issueAssignEmail }
+module.exports = {
+  sgMail,
+  colleagueRequestEmail,
+  issueAssignEmail,
+  colleagueConfirmedEmail,
+}

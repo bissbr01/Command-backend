@@ -12,6 +12,7 @@ const commentsRouter = require('./controllers/comments')
 const teamsRouter = require('./controllers/teams')
 const membershipsRouter = require('./controllers/memberships')
 const loginRouter = require('./controllers/login')
+const notificationRouter = require('./controllers/notifications')
 const { errorHandler } = require('./util/errorHandler')
 const setAuthId = require('./util/setAuthId')
 
@@ -32,6 +33,7 @@ app.use('/api/comments', commentsRouter)
 app.use('/api/teams', teamsRouter)
 app.use('/api/memberships', membershipsRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/notifications', notificationRouter)
 
 app.use(errorHandler)
 

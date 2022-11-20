@@ -30,6 +30,10 @@ Notification.init(
       allowNull: false,
       references: { model: 'users', key: 'id' },
     },
+    colleagueId: {
+      type: DataTypes.STRING,
+      references: { model: 'users', key: 'id' },
+    },
     projectId: {
       type: DataTypes.INTEGER,
       references: { model: 'projects', key: 'id' },

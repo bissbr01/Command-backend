@@ -46,10 +46,17 @@ User.hasMany(Project, {
 Project.belongsTo(User, { as: 'lead' })
 
 User.hasMany(Notification, {
+  // foreignKey: 'userId',
   onDelete: 'cascade',
   hooks: true,
 })
 Notification.belongsTo(User)
+
+User.hasMany(Notification, {
+  foreignKey: 'colleagueId',
+  as: 'notificationsSent',
+})
+Notification.belongsTo(User, { as: 'colleague' })
 
 Project.hasMany(Notification, {
   onDelete: 'cascade',
@@ -86,4 +93,5 @@ module.exports = {
   Team,
   Membership,
   Colleague,
+  Notification,
 }

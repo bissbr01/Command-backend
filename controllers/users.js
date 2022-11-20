@@ -1,6 +1,13 @@
 const bcrypt = require('bcrypt')
 const router = require('express').Router()
-const { User, Project, Sprint, Issue, Team } = require('../models')
+const {
+  User,
+  Project,
+  Sprint,
+  Issue,
+  Team,
+  Notification,
+} = require('../models')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const {
@@ -9,7 +16,6 @@ const {
   issueAssignEmail,
 } = require('../util/sendEmail')
 const { RouteErrors } = require('../util/errorHandler')
-const Notification = require('../models/notification')
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
@@ -32,7 +38,10 @@ router.get('/me', async (req, res) => {
   const user = await User.findByPk(req.auth.id, {
     include: [
       Project,
-      Notification,
+      {
+        model: Notification,
+        include: ['colleague'],
+      },
       {
         model: Team,
         attributes: ['name', 'id'],
@@ -81,33 +90,14 @@ router.post('/', async (req, res) => {
   res.json({ user, created })
 })
 
-router.post('/me/notifications', async (req, res) => {
-  const user = await User.findByPk(req.auth.id)
-  if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
-  const colleague = await User.findOne({ where: { email: req.body.email } })
-  if (!colleague) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
-
-  try {
-    let type
-    if (req.body.type === Notification.types.colleagueRequest) {
-      type = Notification.types.colleagueRequest
-      await sgMail.send(colleagueRequestEmail(colleague.email, user.nickname))
-    } else if (req.body.type === Notification.types.issueAssigned) {
-      type = Notification.types.issueAssigned
-      await sgMail.send(issueAssignEmail(colleague.email, user.nickname))
-    } else {
-      type = Notification.types.colleagueConfirmed
-      await sgMail.send(colleagueConfirmed(colleague.email, user.nicknaname))
-    }
-    const notification = await Notification.create({
-      type,
-      userId: colleague.id,
-    })
-    res.json({ notification })
-  } catch (error) {
-    console.log('error: ', error)
-    throw Error(RouteErrors.IMPROPER_FORMAT.key)
-  }
+router.get('/me/notifications', async (req, res) => {
+  const notifications = await Notification.findAll({
+    where: {
+      userId: req.auth.id,
+    },
+  })
+  if (!notifications) throw Error(RouteErrors.NOT_FOUND.key)
+  res.json(notifications)
 })
 
 router.post('/me/colleagues', async (req, res) => {
