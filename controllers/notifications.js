@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
   const notifications = await Notification.findAll({
     where: {
       userId: req.auth.id,
+      status: Notification.statuses.alert,
     },
     include: ['colleague'],
   })
@@ -51,6 +52,15 @@ router.post('/', async (req, res) => {
     console.log('error: ', error)
     throw Error(RouteErrors.IMPROPER_FORMAT.key)
   }
+})
+
+router.patch('/:id', async (req, res) => {
+  const notification = await Notification.findByPk(req.params.id)
+  if (!notification) throw Error(RouteErrors.NOT_FOUND.key)
+  const attributes = Object.keys(req.body)
+  attributes.forEach((attr) => (notification[attr] = req.body[attr]))
+  await notification.save()
+  res.json(notification)
 })
 
 module.exports = router
