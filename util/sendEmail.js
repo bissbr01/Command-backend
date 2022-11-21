@@ -9,28 +9,30 @@ const issueAssignEmail = (recipient, requesterName) => ({
   to: recipient,
   from: DEFAULT_SENDER,
   subject: `${requesterName} assigned you a new Issue`,
-  text: `${requesterName} has assigned you a new issue. 
+  html: `<p><strong>${requesterName}</strong> has assigned you a new issue. 
       
-      You can log in at https://scrum-management-frontend.onrender.com/ to view it under your team's project.
-      `,
+      You can log in <a href="https://scrum-management-frontend.onrender.com/">here</a> to view it under your team's project.
+      </p>`,
 })
 const colleagueRequestEmail = (recipient, requesterName) => ({
   to: recipient,
   from: DEFAULT_SENDER,
   subject: 'Colleague Request on Command Project Management',
-  text: `${requesterName} has requested you as a colleague on Command Project Mangement.  
-      
-      You can log in at https://scrum-management-frontend.onrender.com/ to accept or remove their request.
-      `,
+  html: `<p>
+    <strong>${requesterName}</strong> has requested you as a colleague on Command Project Mangement.
+        
+    You can log in <a href="https://scrum-management-frontend.onrender.com/">here</a> to accept or remove their request.
+  </p>`,
 })
 const colleagueConfirmedEmail = (recipient, requesterName) => ({
   to: recipient,
   from: DEFAULT_SENDER,
   subject: 'Colleague Confirmed on Command Project Management',
-  text: `${requesterName} has confirmed you as a colleague on Command Project Mangement.  
-      
-      You can log in at https://scrum-management-frontend.onrender.com/ to see them under colleagues.
-      `,
+  html: `<p>
+    <strong>${requesterName}</strong> has confirmed you as a colleague on Command Project Mangement.
+    
+        You can log in <a href="https://scrum-management-frontend.onrender.com/">here</a> to see them under colleagues.
+  </p>`,
 })
 
 module.exports = {

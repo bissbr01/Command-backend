@@ -105,11 +105,13 @@ router.post('/me/colleagues', async (req, res) => {
   if (!user) throw Error(RouteErrors.IMPROPER_FORMAT.key)
   const colleague = await User.findOne({ where: { email: req.body.email } })
   if (!colleague) throw Error(RouteErrors.COLLEAGUE_DOESNT_EXIST.key)
+  await colleague.addFriend(user)
   const result = await user.addFriend(colleague)
 
   const notification = await Notification.create({
     type: Notification.types.colleagueConfirmed,
     userId: colleague.id,
+    colleagueId: user.id,
   })
 
   res.json({ result })
