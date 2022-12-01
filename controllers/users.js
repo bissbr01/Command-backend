@@ -71,10 +71,11 @@ router.get('/me', async (req, res) => {
 
 router.post('/', async (req, res) => {
   // use id_token from req.body to get user info from auth0
-  console.log('init:', new Date())
-  const cert = fs.readFileSync('dev-w8p6njku.pem')
-  const decodedToken = jwt.verify(req.body.token, cert)
-  console.log('after token:', new Date())
+  // console.log('init:', new Date())
+  // const cert = fs.readFileSync('dev-w8p6njku.pem')
+  // const decodedToken = jwt.verify(req.body.token, cert)
+  // console.log('after token:', new Date())
+  const decodedToken = req.body.token
 
   // find or add to db.  This syncs local database users with auth0 user store
   const { nickname, name, picture, email, email_verified, sub } = decodedToken
