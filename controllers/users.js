@@ -70,7 +70,6 @@ router.get('/me', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  // console.log('init:', new Date())
   // const cert = fs.readFileSync('dev-w8p6njku.pem')
   // const decodedToken = jwt.verify(req.body.token, cert)
   console.log('after token:', new Date())
