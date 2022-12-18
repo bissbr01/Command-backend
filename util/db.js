@@ -7,7 +7,7 @@ const sequelize = new Sequelize({
   host: process.env.RDS_DB_HOST,
   username: process.env.RDS_DB_USER,
   password: process.env.RDS_DB_PASS,
-  database: process.env.RDS_DB_Name,
+  database: process.env.RDS_DB_NAME,
   port: process.env.RDS_DB_PORT,
   dialect: 'postgres',
   ssl: {
