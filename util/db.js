@@ -4,10 +4,10 @@ const { Umzug, SequelizeStorage } = require('umzug')
 const { DATABASE_URL } = require('./config')
 
 const sequelize = new Sequelize({
-  database: process.env.RDS_DB_Name,
   host: process.env.RDS_DB_HOST,
   username: process.env.RDS_DB_USER,
   password: process.env.RDS_DB_PASS,
+  database: process.env.RDS_DB_Name,
   port: process.env.RDS_DB_PORT,
   dialect: 'postgres',
   ssl: {
