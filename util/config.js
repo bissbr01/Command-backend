@@ -4,7 +4,7 @@ require('dotenv').config()
 const DATABASE_URL =
   process.env.NODE_ENV === 'production'
     ? process.env.DATABASE_URL
-    : process.env.DATABASE_URL
+    : process.env.RDS_DB_URL
 
 module.exports = {
   DATABASE_URL: DATABASE_URL,

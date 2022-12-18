@@ -3,13 +3,19 @@ const { Sequelize } = require('sequelize')
 const { Umzug, SequelizeStorage } = require('umzug')
 const { DATABASE_URL } = require('./config')
 
-const sequelize = new Sequelize(DATABASE_URL, {
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
+const sequelize = new Sequelize({
+  database: process.env.RDS_DB_Name,
+  host: process.env.RDS_DB_HOST,
+  username: process.env.RDS_DB_USER,
+  password: process.env.RDS_DB_PASS,
+  port: process.env.RDS_DB_PORT,
+  dialect: 'postgres',
+  ssl: {
+    require: false,
+    rejectUnauthorized: false,
   },
+  logging: console.log,
+  language: 'en',
 })
 
 const migrationConf = {
