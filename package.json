@@ -25,7 +25,8 @@
     "jwks-rsa": "^2.1.5",
     "nodemon": "^2.0.19",
     "pg": "^8.8.0",
-    "sequelize": "^6.21.4",
+    "sequelize": "^6.27.0",
+    "sequelize-cockroachdb": "^6.0.5",
     "umzug": "^3.2.1"
   },
   "devDependencies": {
