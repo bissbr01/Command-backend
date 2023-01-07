@@ -23,3 +23,5 @@ Your enviornemnt variables should include the following:
     RDS_DB_PASS='pass'
     RDS_DB_PORT='5432 for PostgreSQL'
     RDS_DB_NAME='db name'
+
+You can run the service using `npm start`.
