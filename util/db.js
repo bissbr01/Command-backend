@@ -3,7 +3,14 @@ const { Sequelize } = require('sequelize')
 const { Umzug, SequelizeStorage } = require('umzug')
 const { DATABASE_URL } = require('./config')
 
-const sequelize = new Sequelize(DATABASE_URL, {})
+const sequelize = new Sequelize(DATABASE_URL, {
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+})
 
 const migrationConf = {
   migrations: {
